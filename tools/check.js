@@ -4,7 +4,7 @@
 const path = require('path');
 global.window = {};
 const dir = path.join(__dirname, '..', 'app');
-for (const f of ['figs', 'bank1', 'bank2', 'bank3', 'bank4', 'bank5', 'revize', 'recall', 'coverage']) require(path.join(dir, f + '.js'));
+for (const f of ['figs', 'bank1', 'bank2', 'bank3', 'bank4', 'bank5', 'bank6', 'revize', 'recall', 'coverage']) require(path.join(dir, f + '.js'));
 
 const REV = window.QREV, FIG = window.FIG, RC = window.RC, COVERAGE = window.COVERAGE;
 const QB = window.QB.map(raw => {

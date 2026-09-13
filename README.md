@@ -17,7 +17,7 @@ Postup se ukládá jen v `localStorage` prohlížeče — žádný server ani da
 
 | | |
 |---|---|
-| Otázky | 361 (výběr jedné i více odpovědí, pravda/mýtus, seřazení, přiřazení, obrázkové) |
+| Otázky | 384 (výběr jedné i více odpovědí, pravda/mýtus, seřazení, přiřazení, obrázkové) |
 | Kartičky „Vybav si“ | 46 |
 | Témata skript | 217 nadpisů ze s. 3–36, každé má aspoň jednu otázku |
 
@@ -63,6 +63,12 @@ Schémata (polohy, místa stlačení, pravidlo devíti, tonutí, dušení, dlahy
 - `borelioza.jpg` — [Erythema migrans – PHIL 9875](https://commons.wikimedia.org/wiki/File:Erythema_migrans_-_erythematous_rash_in_Lyme_disease_-_PHIL_9875.jpg), James Gathany / CDC, volné dílo
 - `opar.jpg` — [Herpes (PHIL 1573)](https://commons.wikimedia.org/wiki/File:Herpes(PHIL_1573_lores).jpg), CDC, volné dílo
 - `koprivka.jpg` — [Hives urticaria.jpg](https://commons.wikimedia.org/wiki/File:Hives_urticaria.jpg), Psixtras, CC0
+- `plisen-nohou.jpg` — [Tinea pedis interdigitalis.jpg](https://commons.wikimedia.org/wiki/File:Tinea_pedis_interdigitalis.jpg), Falloonb, volné dílo
+- `plisen-nehtu.jpg` — [Oncymycosis.JPG](https://commons.wikimedia.org/wiki/File:Oncymycosis.JPG), James Heilman, MD, CC BY-SA 3.0
+- `ekzem.jpg` — [Atopic dermatitis child.JPG](https://commons.wikimedia.org/wiki/File:Atopic_dermatitis_child.JPG), Eisfelder, CC BY-SA 3.0
+- `rautek.png` — [Rautek-maneuver.png](https://commons.wikimedia.org/wiki/File:Rautek-maneuver.png), Baedr-9439, CC0
+
+Náměty obrázkových otázek vycházejí z ilustrací v příručce ČČK a ve skriptech ČČK Praha 1; schémata jsou nakreslená nově, ne převzatá.
 
 ## Upozornění
 

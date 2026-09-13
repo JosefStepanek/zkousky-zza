@@ -192,5 +192,116 @@ photo('fotoBorelioza', 'borelioza.jpg', 'Kulatá zarudlá skvrna na paži, upros
 photo('fotoOpar', 'opar.jpg', 'Puchýřek na spodním rtu, na který ukazuje šipka', 'Foto: CDC, Wikimedia Commons — volné dílo');
 photo('fotoKoprivka', 'koprivka.jpg', 'Kůže s nepravidelnými vystouplými zarudlými skvrnami', 'Foto: Psixtras, Wikimedia Commons — CC0');
 
+/* ══════ Doplněk podle obrázků v příručce ČČK a ve skriptech ČČK Praha 1 (vlastní kresby) ══════ */
+
+/* ── Elektrody AED ── */
+const torso = () => L('100,6 100,30') + L('46,54 24,128', 'fx-b fx-t') + L('154,54 176,128', 'fx-b fx-t') + R(40, 26, 120, 196, 40) +
+  C(72, 94, 4.5, 'fx-n') + C(128, 94, 4.5, 'fx-n') + C(100, 192, 3, 'fx-n');
+const pad = (x, y, rot) => `<rect class="fx-hi" x="${x - 16}" y="${y - 11}" width="32" height="22" rx="4" transform="rotate(${rot} ${x} ${y})"/>` + C(x, y, 3, 'fx-n');
+add('aedOk', 'Hrudník: jedna elektroda pod pravou klíční kostí, druhá na levém boku pod podpažím', torso() + pad(70, 52, -10) + pad(146, 134, -65), '0 0 200 230');
+add('aedStred', 'Hrudník: obě elektrody nad sebou na hrudní kosti', torso() + pad(100, 60, 0) + pad(100, 130, 0), '0 0 200 230');
+add('aedBricho', 'Hrudník: jedna elektroda na břiše, druhá na levém rameni', torso() + pad(100, 176, 0) + pad(132, 52, 10), '0 0 200 230');
+
+/* ── Pozice při masáži ── */
+function masaz(ok) {
+  const victim = G(8, 232, 134) + C(200, 114, 11) + L('186,120 76,122') + L('76,122 24,124');
+  return victim + (ok
+    ? L('56,132 88,132 98,100') + L('98,100 116,56') + C(112, 42, 10) + L('116,60 118,112', 'fx-b fx-t') + L('111,60 113,112', 'fx-b fx-t') + R(107, 109, 17, 7, 3, 'fx-h')
+    : L('36,132 68,132 78,100') + L('78,100 86,56') + C(82, 42, 10) + L('86,62 110,84 116,112', 'fx-b fx-t') + R(108, 109, 17, 7, 3, 'fx-h'));
+}
+add('masazOk', 'Zachránce klečí, ramena má kolmo nad hrudníkem a lokty propnuté', masaz(true), '0 24 240 118');
+add('masazBad', 'Zachránce klečí stranou, lokty má pokrčené a ramena mimo osu hrudníku', masaz(false), '0 24 240 118');
+
+/* ── Technika stlačení podle věku ── */
+const chest = R(30, 30, 100, 132, 34) + C(56, 80, 4, 'fx-n') + C(104, 80, 4, 'fx-n') + L('80,44 80,130', 'fx-d');
+add('techDveRuce', 'Dvě dlaně položené na sobě uprostřed hrudníku',
+  chest + L('80,78 62,4') + L('80,86 98,4') + '<ellipse class="fx-palm" cx="80" cy="88" rx="18" ry="13"/><ellipse class="fx-palm" cx="80" cy="80" rx="18" ry="13"/>', '0 0 160 170');
+add('techJednaRuka', 'Jedna dlaň uprostřed hrudníku',
+  chest + L('80,80 80,4') + '<ellipse class="fx-palm" cx="80" cy="84" rx="18" ry="13"/>', '0 0 160 170');
+add('techDvaPrsty', 'Dva prsty uprostřed hrudníku na spojnici bradavek',
+  chest + R(62, 4, 36, 44, 14, 'fx-palm') + R(69, 42, 8, 40, 4, 'fx-palm') + R(83, 42, 8, 40, 4, 'fx-palm'), '0 0 160 170');
+
+/* ── Umělý vdech u novorozence ── */
+function face(seal) {
+  const s = {
+    obe: '<ellipse class="fx-seal" cx="80" cy="91" rx="27" ry="23"/>',
+    usta: '<ellipse class="fx-seal" cx="80" cy="101" rx="19" ry="9"/>',
+    nos: '<ellipse class="fx-seal" cx="80" cy="81" rx="12" ry="9"/>'
+  }[seal];
+  return C(80, 76, 54, 'fx-o') + L('58,62 68,62', 'fx-b fx-thin') + L('92,62 102,62', 'fx-b fx-thin') +
+    '<path class="fx-g" d="M74 82 Q80 87 86 82"/><path class="fx-g" d="M70 100 Q80 106 90 100"/>' + s;
+}
+add('vdechObe', 'Obličej dítěte, přerušovaný ovál překrývá ústa i nos', face('obe'), '0 0 160 140');
+add('vdechUsta', 'Obličej dítěte, přerušovaný ovál překrývá jen ústa', face('usta'), '0 0 160 140');
+add('vdechNos', 'Obličej dítěte, přerušovaný ovál překrývá jen nos', face('nos'), '0 0 160 140');
+
+/* ── Úlevová poloha „klubíčko“ ── */
+add('polohaKlubicko', 'Postava ležící na boku, schoulená do klubíčka s koleny přitaženými k hrudníku',
+  G(20, 176, 132) + C(46, 104, 13) + L('60,98 86,82 114,86 130,106') + L('130,106 92,112') + L('92,112 118,124') + L('66,106 86,112', 'fx-b fx-t'),
+  '20 58 160 82');
+
+/* ── Cizí těleso v ráně ── */
+const arm2 = R(10, 84, 200, 34, 17);
+add('cteloOk', 'Předmět zůstává v ráně, po stranách je obložený roličkami obvazu a zafixovaný obinadlem',
+  arm2 + R(70, 78, 80, 46, 6, 'fx-band') + '<polygon class="fx-h" points="104,86 101,22 113,22 116,86"/>' + R(76, 52, 22, 34, 6, 'fx-roll') + R(122, 52, 22, 34, 6, 'fx-roll'),
+  '0 0 220 140');
+add('cteloVen', 'Předmět je vytažený a leží vedle paže, rána je přikrytá gázou',
+  arm2 + R(86, 80, 48, 30, 3, 'fx-roll') + '<polygon class="fx-h" points="150,128 206,122 207,130 151,136"/>' + C(98, 125, 3, 'fx-blood') + C(112, 131, 2.5, 'fx-blood'),
+  '0 0 220 140');
+add('cteloPres', 'Obinadlo je pevně přetažené přes předmět a zatlačuje ho do rány',
+  arm2 + '<polygon class="fx-h" points="104,86 102,58 114,58 116,86"/>' + R(66, 50, 88, 72, 8, 'fx-band', ' style="fill-opacity:.55"'),
+  '0 0 220 140');
+
+/* ── Tlakový obvaz (průřez končetinou) ── */
+add('tlakovy', 'Průřez končetinou: na ráně gáza, na ní tlaková vrstva ze smotaného obinadla, vše pevně ovinuté obvazem',
+  C(100, 118, 54, 'fx-o') + C(100, 126, 15, 'fx-bone') + '<path d="M86 66 Q100 58 114 66" fill="none" stroke="#D1293D" stroke-width="4" stroke-linecap="round"/>' +
+  R(78, 54, 44, 8, 3, 'fx-gauze') + R(80, 28, 40, 26, 11, 'fx-roll') + '<ellipse class="fx-wrap" cx="100" cy="104" rx="64" ry="80"/>',
+  '0 0 200 200');
+
+/* ── Dlaha na bérec ── */
+function dlahaNoha(x, w) {
+  return L('10,70 100,70') + L('100,70 184,70') + L('184,70 192,36') + L('136,58 144,66 136,74 144,82', 'fx-cut') +
+    C(100, 70, 5, 'fx-m') + C(184, 70, 5, 'fx-m') + R(x, 54, w, 32, 6, 'fx-splint') + T(100, 110, 'koleno') + T(184, 110, 'kotník');
+}
+add('nohaOk', 'Bérec se zlomeninou, dlaha sahá přes koleno i kotník', dlahaNoha(60, 150), '0 0 230 120');
+add('nohaKratka', 'Bérec se zlomeninou, dlaha kryje jen místo zlomeniny', dlahaNoha(120, 40), '0 0 230 120');
+add('nohaBezKotniku', 'Bérec se zlomeninou, dlaha přes koleno, kotník zůstává volný', dlahaNoha(60, 100), '0 0 230 120');
+
+/* ── Obvazová technika ── */
+const limbV = R(70, 6, 60, 188, 6);
+add('obvazKruhovy', 'Končetina s otáčkami obinadla vedenými vodorovně přes sebe',
+  limbV + [0, 1, 2, 3, 4, 5].map(i => R(62, 50 + i * 16, 76, 22, 3, 'fx-band')).join(''), '0 0 200 200');
+add('obvazKlasovy', 'Končetina s otáčkami obinadla, které se kříží do tvaru klasu',
+  limbV + [0, 1, 2, 3, 4, 5].map(i => { const y = 156 - i * 18; return `<polygon class="fx-band" points="62,${y} 100,${y - 16} 100,${y - 4} 62,${y + 12}"/><polygon class="fx-band" points="100,${y - 16} 138,${y} 138,${y + 12} 100,${y - 4}"/>`; }).join(''),
+  '0 0 200 200');
+add('maltez', 'Náplast vystřižená do tvaru kříže s rameny rozšiřujícími se ke krajům, uprostřed polštářek',
+  '<path class="fx-band" d="M70 20 L110 20 L96 70 L150 56 L150 104 L96 90 L110 140 L70 140 L84 90 L30 104 L30 56 L84 70 Z"/>' + R(82, 68, 16, 24, 3, 'fx-gauze'),
+  '0 0 180 160');
+add('leukosteh', 'Drobná rána na kůži, jejíž okraje k sobě přitahují tři úzké proužky náplasti',
+  R(10, 30, 200, 90, 20) + L('50,76 170,74', 'fx-woundline') + R(64, 40, 14, 70, 3, 'fx-band') + R(103, 40, 14, 70, 3, 'fx-band') + R(142, 40, 14, 70, 3, 'fx-band'),
+  '0 0 220 150');
+
+/* ── Transport ── */
+add('doprovod', 'Zachránce podpírá zraněného kolem pasu, zraněný má paži přes jeho ramena a jednu nohu nezatěžuje',
+  G(8, 192, 172) + L('78,170 82,118') + L('94,170 90,118') + L('86,118 88,60') + C(88, 46, 10) +
+  L('128,170 124,118') + L('146,150 136,118') + L('130,118 126,62') + C(124, 48, 10) +
+  L('126,68 104,62 84,66', 'fx-b fx-t') + L('88,96 128,96', 'fx-b fx-t'),
+  '0 0 200 180');
+add('odnesZaSebou', 'Jeden zachránce drží zraněného zezadu pod pažemi, druhý nese jeho dolní končetiny',
+  G(8, 232, 172) + L('40,170 44,120') + L('56,170 52,120') + L('48,120 52,64') + C(50, 50, 10) +
+  C(78, 86, 9) + L('86,96 140,112') + L('140,110 196,106', 'fx-b fx-t') + L('140,114 196,116', 'fx-b fx-t') +
+  L('52,74 88,100', 'fx-b fx-t') + L('52,82 92,106', 'fx-b fx-t') +
+  L('186,170 190,122') + L('202,170 198,122') + L('194,122 196,66') + C(198, 52, 10) + L('196,76 196,110', 'fx-b fx-t'),
+  '0 0 240 180');
+add('tazeni', 'Zachránce plave na zádech a táhne tonoucího, který leží na zádech s obličejem nad hladinou',
+  C(150, 54, 10) + nose(150, 54, 10, -90) + L('138,62 60,66') + L('60,66 16,64', 'fx-b fx-t') + L('60,68 18,74', 'fx-b fx-t') +
+  C(178, 58, 9) + nose(178, 58, 9, -90) + L('190,64 232,70') + L('176,68 156,60', 'fx-b fx-t') + water(0, 240, 60, 70),
+  '0 0 240 130');
+
+photo('fotoPlisen', 'plisen-nohou.jpg', 'Rozmočená, popraskaná a olupující se kůže mezi prsty na noze', 'Foto: Falloonb, Wikimedia Commons — volné dílo');
+photo('fotoEkzem', 'ekzem.jpg', 'Předloktí dítěte se zarudlou, suchou a rozškrábanou vyrážkou', 'Foto: Eisfelder, Wikimedia Commons — CC BY-SA 3.0');
+photo('fotoNehty', 'plisen-nehtu.jpg', 'Zažloutlý, ztluštělý a rozpadající se nehet palce na noze', 'Foto: James Heilman, MD, Wikimedia Commons — CC BY-SA 3.0');
+photo('fotoRautek', 'rautek.png', 'Zachránce stojí za postiženým, provléká paže pod jeho rameny a drží ho za předloktí', 'Ilustrace: Baedr-9439, Wikimedia Commons — CC0');
+
 window.FIG = FIG;
 })();
