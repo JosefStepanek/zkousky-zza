@@ -70,6 +70,10 @@ Schémata (polohy, místa stlačení, pravidlo devíti, tonutí, dušení, dlahy
 
 Náměty obrázkových otázek vycházejí z ilustrací v příručce ČČK a ve skriptech ČČK Praha 1; schémata jsou nakreslená nově, ne převzatá.
 
+## Ikony a písmo
+
+Ikony: [Lucide](https://lucide.dev), licence ISC. Písmo nadpisů a otázek: [Atkinson Hyperlegible Next](https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next) (Braille Institute, SIL OFL), text: IBM Plex Sans a IBM Plex Mono (SIL OFL).
+
 ## Upozornění
 
 Aplikace slouží k učení na zkoušku. Nenahrazuje kurz první pomoci ani aktuální doporučené postupy.

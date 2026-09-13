@@ -1,11 +1,11 @@
 /* Service worker — aplikace funguje i bez signálu.
    Při změně souborů zvyš VERSION tady i ?v= v index.html. */
-const VERSION = '3';
+const VERSION = '4';
 const CACHE = 'zza-v' + VERSION;
 const CORE = [
   './', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png',
   'img/plane-nestovice.jpg', 'img/zardenky.jpg', 'img/borelioza.jpg', 'img/opar.jpg', 'img/koprivka.jpg', 'img/plisen-nohou.jpg', 'img/ekzem.jpg', 'img/plisen-nehtu.jpg', 'img/rautek.png',
-  ...['figs', 'bank1', 'bank2', 'bank3', 'bank4', 'bank5', 'bank6', 'revize', 'recall', 'coverage', 'app'].map(f => `${f}.js?v=${VERSION}`)
+  ...['figs', 'bank1', 'bank2', 'bank3', 'bank4', 'bank5', 'bank6', 'revize', 'recall', 'coverage', 'icons', 'app'].map(f => `${f}.js?v=${VERSION}`)
 ];
 
 self.addEventListener('install', e => {

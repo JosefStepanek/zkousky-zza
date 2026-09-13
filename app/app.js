@@ -17,6 +17,7 @@ const RC = window.RC || [];
 const FIG = window.FIG || {};
 const COVERAGE = window.COVERAGE || [];
 const LET = 'ABCDEFGHIJKL';
+const ICON = window.ICON || {};
 
 const EXAM_N = 40;
 const PASS_N = Math.ceil(EXAM_N * 0.82);          // 33
@@ -120,7 +121,7 @@ function figBlock(key, cap) {
    2 rozpracované, 3–5 naučené), n = pokusů, k = správně, t = poslední pokus.
    Ukládá se jen do localStorage tohoto prohlížeče — žádný server ani databáze. */
 const LS_KEY = 'zza-trenazer-v1';
-const blank = () => ({ v: 1, q: {}, r: {}, exams: [] });
+const blank = () => ({ v: 1, q: {}, r: {}, exams: [], last: {} });
 function readLocal() {
   try {
     const s = JSON.parse(localStorage.getItem(LS_KEY));
@@ -130,6 +131,14 @@ function readLocal() {
 }
 let S = readLocal();
 const save = () => lsSet(LS_KEY, JSON.stringify(S));
+
+// Poslední pokus v každém režimu — zobrazuje se na dlaždici
+function recordSession(key, ok, n) {
+  if (!key || !n) return;
+  S.last = S.last || {};
+  S.last[key] = { ts: Date.now(), ok, n };
+  save();
+}
 
 /* ════════════════════════ Opakování s rozestupy ════════════════════════ */
 const H = 3600e3;
@@ -246,7 +255,7 @@ function installBlock() {
       : '<p>V menu prohlížeče (⋮) zvol <b>Přidat na plochu</b> nebo <b>Instalovat aplikaci</b>.</p>';
   return `<aside class="install" aria-label="Přidat na plochu">
     <div>
-      <strong>Přidej si Zkoušky ZZA na plochu</strong>
+      <strong class="with-ic">${ICON.install} Přidej si Zkoušky ZZA na plochu</strong>
       ${how}
       <p class="muted">Pak se otevírá jako aplikace a funguje i bez signálu.${isIOS ? ' Na iPhonu má aplikace na ploše vlastní úložiště postupu, oddělené od Safari — přidej ji proto hned na začátku.' : ''}</p>
     </div>
@@ -259,8 +268,9 @@ let V = { screen: 'home' };
 const cur = () => V.items[V.i];
 const toTop = () => window.scrollTo({ top: 0, behavior: 'auto' });
 
+let lastView = '';
 function render() {
-  $app.innerHTML =
+  const html =
     V.screen === 'quiz' ? viewQuiz() :
     V.screen === 'result' ? viewResult() :
     V.screen === 'summary' ? viewSummary() :
@@ -268,11 +278,49 @@ function render() {
     V.screen === 'recallDone' ? viewRecallDone() :
     V.screen === 'disputes' ? viewDisputes() :
     viewHome();
+  $app.innerHTML = html;
+  const viewKey = V.screen + ':' + (V.i || 0);
+  if (viewKey !== lastView) {
+    // Vstupní animace jen při změně obrazovky nebo otázky, ne při každém kliknutí
+    $app.classList.remove('enter');
+    void $app.offsetWidth;
+    $app.classList.add('enter');
+    if (!reduced) $app.querySelectorAll('[data-count]').forEach(countUp);
+  }
+  lastView = viewKey;
+  V.just = null;
+}
+
+function countUp(el) {
+  const to = +el.dataset.count, t0 = performance.now(), dur = 700;
+  const step = t => {
+    const k = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) requestAnimationFrame(step);
+  };
+  el.textContent = '0';
+  requestAnimationFrame(step);
 }
 
 const CROSS = `<svg class="cross" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="5" style="fill:var(--ok)"/><path d="M10.5 5h5v5.5H21v5h-5.5V21h-5v-5.5H5v-5h5.5z" style="fill:var(--surface)"/></svg>`;
 
 /* ── Domov ── */
+function lastInfo(key, label) {
+  const r = S.last && S.last[key];
+  const pre = label ? `<b>${label}</b> ` : '';
+  return r
+    ? `<span class="mode-last">${ICON.clock}<span>${pre}${relTime(r.ts)} · ${r.ok}/${r.n} (${pct(r.ok, r.n)} %)</span></span>`
+    : `<span class="mode-last">${ICON.clock}<span>${pre}zatím bez pokusu</span></span>`;
+}
+
+function modeTile(act, title, badge, hot, desc) {
+  return `<button class="mode" data-act="${act}">
+    <span class="mode-head"><span class="mode-ic">${ICON[act]}</span><span class="mode-title">${title} <span class="badge${hot ? ' hot' : ''}">${badge}</span></span></span>
+    <span class="mode-desc">${desc}</span>
+    ${lastInfo(act)}
+  </button>`;
+}
+
 function viewHome() {
   const total = QB.length;
   const known = QB.filter(q => boxOf('q', q.id) >= 3).length;
@@ -304,7 +352,7 @@ function viewHome() {
 <div class="home">
   <section class="exam-card" aria-labelledby="exam-h">
     <div>
-      <div class="eyebrow">Zkouška nanečisto</div>
+      <div class="eyebrow with-ic">${ICON.exam} Zkouška nanečisto</div>
       <h1 id="exam-h">40 otázek napříč celými skripty</h1>
     </div>
     <div class="exam-facts">
@@ -313,12 +361,12 @@ function viewHome() {
       <div class="fact"><b>${EXAM_N - PASS_N}</b><span>chyb povoleno</span></div>
     </div>
     <p class="last-exam">${lastLine}</p>
-    <button class="btn btn-primary btn-block" data-act="exam">Spustit zkoušku</button>
+    <button class="btn btn-primary btn-block" data-act="exam">${ICON.play} Spustit zkoušku</button>
   </section>
 
   <section class="readiness" aria-labelledby="ready-h">
     <div class="readiness-head">
-      <h2 id="ready-h">Připravenost</h2>
+      <h2 id="ready-h" class="with-ic">${ICON.gauge} Připravenost</h2>
       <span class="num">${known} / ${total} · ${readyPct} %</span>
     </div>
     <div class="meter" data-pass="${readyPct >= 82 ? 1 : 0}" role="img" aria-label="Naučeno ${readyPct} procent otázek, hranice úspěchu 82 procent"><i style="width:${readyPct}%"></i><span class="tick"></span></div>
@@ -328,48 +376,31 @@ function viewHome() {
 
   <section class="modes" aria-label="Režimy procvičování">
     <div class="mode mode-wide">
-      <span class="mode-title">Dnešní opakování <span class="badge${dueQ ? ' hot' : ''}">${dueQ ? `${dueQ} k opakování` : `${newQ} nových`}</span></span>
+      <span class="mode-head"><span class="mode-ic ok">${ICON.daily}</span><span class="mode-title">Dnešní opakování <span class="badge${dueQ ? ' hot' : ''}">${dueQ ? `${dueQ} k opakování` : `${newQ} nových`}</span></span></span>
       <span class="mode-desc">Otázky napříč okruhy. Co spleteš, vrátí se brzy; co umíš, odsune se na později. Krátké se vejde do čekání na autobus.</span>
       <div class="mode-btns">
-        <button class="btn btn-primary" data-act="daily">Celé · ${DAILY_N} otázek</button>
-        <button class="btn" data-act="short">Krátké · ${SHORT_N} otázek</button>
+        <button class="btn btn-primary" data-act="daily">${ICON.play} Celé · ${DAILY_N} otázek</button>
+        <button class="btn" data-act="short">${ICON.short} Krátké · ${SHORT_N} otázek</button>
       </div>
+      <div class="mode-lasts">${lastInfo('daily', 'Celé')}${lastInfo('short', 'Krátké')}</div>
     </div>
-    <button class="mode" data-act="recall">
-      <span class="mode-title">Vybav si <span class="badge">${dueR} karet</span></span>
-      <span class="mode-desc">Výčty, postupy a čísla bez nabídky možností.</span>
-    </button>
-    <button class="mode" data-act="myths">
-      <span class="mode-title">Pravda, nebo mýtus? <span class="badge">${nMyth}</span></span>
-      <span class="mode-desc">Rychlé chytáky — záklon při krvácení z nosu, olej na klíště a spol.</span>
-    </button>
-    <button class="mode" data-act="pictures">
-      <span class="mode-title">Obrázky a fotky <span class="badge">${nPic}</span></span>
-      <span class="mode-desc">Polohy, místa stlačení, tonoucí, vyrážky.</span>
-    </button>
-    <button class="mode" data-act="orderMatch">
-      <span class="mode-title">Seřaď a přiřaď <span class="badge">${nMix}</span></span>
-      <span class="mode-desc">Postupy krok za krokem a dvojice čísel a pojmů.</span>
-    </button>
-    <button class="mode" data-act="mistakes">
-      <span class="mode-title">Opravit chyby <span class="badge${wrongQ ? ' hot' : ''}">${wrongQ}</span></span>
-      <span class="mode-desc">${wrongQ ? 'Jen otázky, které byly naposledy špatně.' : 'Zatím žádné chyby k opravě.'}</span>
-    </button>
-    <button class="mode" data-act="disputes">
-      <span class="mode-title">Sporná místa <span class="badge">${nDisp}</span></span>
-      <span class="mode-desc">Kde se skripta liší od ČČK nebo vyhlášky. U zkoušky platí skripta.</span>
-    </button>
+    ${modeTile('recall', 'Vybav si', `${dueR} karet`, false, 'Výčty, postupy a čísla bez nabídky možností.')}
+    ${modeTile('myths', 'Pravda, nebo mýtus?', nMyth, false, 'Rychlé chytáky — záklon při krvácení z nosu, olej na klíště a spol.')}
+    ${modeTile('pictures', 'Obrázky a fotky', nPic, false, 'Polohy, místa stlačení, obvazy, tonoucí, vyrážky.')}
+    ${modeTile('orderMatch', 'Seřaď a přiřaď', nMix, false, 'Postupy krok za krokem a dvojice čísel a pojmů.')}
+    ${modeTile('mistakes', 'Opravit chyby', wrongQ, wrongQ > 0, wrongQ ? 'Jen otázky, které byly naposledy špatně.' : 'Zatím žádné chyby k opravě.')}
+    ${modeTile('disputes', 'Sporná místa', nDisp, false, 'Kde se skripta liší od ČČK nebo vyhlášky. U zkoušky platí skripta.')}
   </section>
 
   ${installBlock()}
 
   <section aria-labelledby="topics-h">
-    <div class="section-head"><h2 id="topics-h">Okruhy</h2><span class="eyebrow">naučeno / otázek</span></div>
+    <div class="section-head"><h2 id="topics-h" class="with-ic">${ICON.layers} Okruhy</h2><span class="eyebrow">naučeno / otázek</span></div>
     <ul class="topics">
       ${CATS.map(c => {
         const st = catStats(c.k);
         return `<li><button class="topic" data-act="topic" data-k="${c.k}">
-          <span><span class="topic-name">${esc(c.n)}</span><span class="topic-pages">${esc(c.p)}</span></span>
+          <span class="topic-main"><span class="topic-ic">${ICON['cat_' + c.k]}</span><span class="topic-name">${esc(c.n)}</span><span class="topic-pages">${esc(c.p)}</span></span>
           <span class="topic-stat">${st.known}/${st.total}</span>
           <span class="boxes" aria-hidden="true">${st.boxes.map(b => `<i data-b="${b}"></i>`).join('')}</span>
         </button></li>`;
@@ -384,7 +415,7 @@ function viewHome() {
   </section>
 
   <section aria-labelledby="cover-h">
-    <div class="section-head"><h2 id="cover-h">Skripta po stranách</h2><span class="eyebrow">${COVERAGE.length} témat · s. 3–36</span></div>
+    <div class="section-head"><h2 id="cover-h" class="with-ic">${ICON.book} Skripta po stranách</h2><span class="eyebrow">${COVERAGE.length} témat · s. 3–36</span></div>
     <div class="cover">
       ${pageNums.map(p => {
         const topics = TOPICS_BY_PAGE[p] || [];
@@ -416,15 +447,15 @@ function bodyChoice(it, showRes) {
       else if (correct) { cls = 'is-missed'; mark = q.m ? 'chybělo' : 'správná'; }
     }
     if (q.ofig) {
-      return `<button class="ofig ${cls}" data-act="opt" data-o="${orig}" aria-pressed="${sel}"${showRes ? ' disabled' : ''}>
+      return `<button class="ofig ${cls}${V.just === orig ? ' just' : ''}" data-act="opt" data-o="${orig}" aria-pressed="${sel}"${showRes ? ' disabled' : ''}>
         ${figInner(q.ofig[orig])}
         <span class="ofig-cap"><b class="box ${q.m ? 'check' : 'radio'}">${LET[idx]}</b>${showRes ? `<span>${esc(q.o[orig])}</span>` : ''}</span>
         ${mark ? `<span class="mark">${mark}</span>` : ''}
       </button>`;
     }
-    return `<button class="opt ${cls}" data-act="opt" data-o="${orig}" aria-pressed="${sel}"${showRes ? ' disabled' : ''}>
+    return `<button class="opt ${cls}${V.just === orig ? ' just' : ''}" data-act="opt" data-o="${orig}" aria-pressed="${sel}"${showRes ? ' disabled' : ''}>
       <span class="box ${q.m ? 'check' : 'radio'}">${LET[idx]}</span>
-      <span class="txt">${esc(q.o[orig])}</span>
+      <span class="txt">${q.t === 'tf' ? (orig === 0 ? ICON.check : ICON.x) : ''}${esc(q.o[orig])}</span>
       ${mark ? `<span class="mark">${mark}</span>` : ''}
     </button>`;
   }).join('');
@@ -490,6 +521,9 @@ function viewQuiz() {
   const badN = V.items.filter(x => x.done && !x.ok).length;
   const answeredN = V.items.filter(answered).length;
   const isLast = V.i === n - 1;
+  const prog = pct(exam ? V.i + 1 : okN + badN, n);
+  const progFrom = V.prevPct === undefined ? prog : V.prevPct;
+  V.prevPct = prog;
 
   const body = q.t === 'order' ? bodyOrder(it, showRes) : q.t === 'match' ? bodyMatch(it, showRes) : bodyChoice(it, showRes);
 
@@ -503,7 +537,7 @@ function viewQuiz() {
         : `Správně je ${LET[it.perm.indexOf(ri)]}: ${q.o[ri]}`;
     }
     explain = `<section class="explain" id="explain">
-      <div class="verdict" data-ok="${it.ok ? 1 : 0}">${it.ok ? 'Správně' : (answered(it) ? 'Špatně' : 'Nevadí — tady je odpověď')}</div>
+      <div class="verdict" data-ok="${it.ok ? 1 : 0}">${it.ok ? ICON.check : ICON.x}<span>${it.ok ? 'Správně' : (answered(it) ? 'Špatně' : 'Nevadí — tady je odpověď')}</span></div>
       ${rightLine ? `<p><b>${esc(rightLine)}</b></p>` : ''}
       <p class="why">${esc(q.why)}</p>
       ${q.img ? figBlock(q.img, 'Pravidlo devíti ve skriptech, s. 30 — každé políčko 9 %, genitál 1 %, součet 100 %.') : ''}
@@ -525,16 +559,16 @@ function viewQuiz() {
       ? '<button class="btn" data-act="dunno">Nevím</button>'
       : `<button class="btn" data-act="dunno">Nevím</button><button class="btn btn-primary" data-act="check"${complete(it) ? '' : ' disabled'}>Vyhodnotit</button>`;
   } else {
-    actions = `<button class="btn btn-primary" data-act="next">${isLast ? 'Zobrazit shrnutí' : 'Další otázka'}</button>`;
+    actions = `<button class="btn btn-primary" data-act="next">${isLast ? 'Zobrazit shrnutí' : 'Další otázka'} ${ICON.arrowRight}</button>`;
   }
 
   return `
 <div class="quiz">
   <div class="qbar">
-    <button class="btn btn-ghost" data-act="quit">${V.confirmQuit ? 'Opravdu ukončit?' : '✕ Ukončit'}</button>
+    <button class="btn btn-ghost" data-act="quit">${V.confirmQuit ? 'Opravdu ukončit?' : ICON.x + ' Ukončit'}</button>
     <div class="qbar-mid">
       <div class="qbar-row"><span>${esc(V.title)}</span><span>${V.i + 1} / ${n}</span></div>
-      <div class="progress"><i style="width:${pct(exam ? V.i + 1 : okN + badN, n)}%"></i></div>
+      <div class="progress"><i style="--from:${progFrom}%;width:${prog}%"></i></div>
       <div class="qbar-row">${exam
         ? `<span>zodpovězeno ${answeredN}</span><span>k úspěchu ${PASS_N} správně</span>`
         : `<span>správně ${okN} · chyby ${badN}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
@@ -612,7 +646,7 @@ function viewResult() {
 <div class="result">
   <div class="eyebrow">Zkouška nanečisto — výsledek</div>
   <div class="score">
-    <span class="score-big">${ok}<small>/${n}</small></span>
+    <span class="score-big"><span data-count="${ok}">${ok}</span><small>/${n}</small></span>
     <span class="stampbig ${pass ? 'pass' : 'fail'}">${pass ? 'nad hranicí' : 'pod hranicí'}</span>
   </div>
   <p>${pct(ok, n)} % správně. Hranice je ${PASS_N} správně (82 %). ${pass
@@ -632,7 +666,7 @@ function viewSummary() {
   return `
 <div class="result">
   <div class="eyebrow">${esc(V.title)} — shrnutí</div>
-  <div class="score"><span class="score-big">${ok}<small>/${items.length}</small></span></div>
+  <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${items.length}</small></span></div>
   <p>${pct(ok, items.length)} % správně. ${wrong.length ? 'Chybné otázky se ti vrátí v Dnešním opakování a v Opravit chyby.' : 'Všechno správně — tyhle otázky se odsunou na později.'}</p>
   ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Hned zopakovat ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}<button class="btn" data-act="home">Domů</button>`)}
   <section><div class="section-head"><h2>Rozbor</h2><span class="eyebrow">chyby nahoře</span></div>${reviewList(items)}</section>
@@ -646,7 +680,7 @@ function viewRecall() {
   return `
 <div class="quiz">
   <div class="qbar">
-    <button class="btn btn-ghost" data-act="quit">✕ Ukončit</button>
+    <button class="btn btn-ghost" data-act="quit">${ICON.x} Ukončit</button>
     <div class="qbar-mid">
       <div class="qbar-row"><span>Vybav si</span><span>${V.i + 1} / ${n}</span></div>
       <div class="progress"><i style="width:${pct(V.i, n)}%"></i></div>
@@ -662,7 +696,7 @@ function viewRecall() {
   </article>
   <div class="actionbar">${it.shown
     ? '<div class="grade"><button class="btn g0" data-act="grade" data-g="bad">Nevím</button><button class="btn" data-act="grade" data-g="half">Napůl</button><button class="btn g2" data-act="grade" data-g="ok">Vím</button></div>'
-    : '<button class="btn btn-primary" data-act="reveal">Ukázat odpověď</button>'}</div>
+    : '<button class="btn btn-primary" data-act="reveal">${ICON.eye} Ukázat odpověď</button>'}</div>
   <p class="kbd-hint">${it.shown ? 'klávesy 1 nevím · 2 napůl · 3 vím' : 'Enter nebo mezerník odkryje'}</p>
 </div>`;
 }
@@ -673,7 +707,7 @@ function viewRecallDone() {
   return `
 <div class="result">
   <div class="eyebrow">Vybav si — shrnutí</div>
-  <div class="score"><span class="score-big">${ok}<small>/${V.items.length}</small></span></div>
+  <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${V.items.length}</small></span></div>
   <p>Vím ${ok} · napůl ${half} · nevím ${bad}. Kartičky, které nešly, se vrátí nejdřív.</p>
   ${inlineActions('<button class="btn btn-primary" data-act="recall">Další kartičky</button><button class="btn" data-act="home">Domů</button>')}
 </div>`;
@@ -690,7 +724,7 @@ function viewDisputes() {
   const qs = QB.filter(q => q.alt);
   return `
 <div class="quiz">
-  <div class="qbar"><button class="btn btn-ghost" data-act="home">← Domů</button><div class="qbar-mid"><div class="qbar-row"><span>Sporná místa</span><span>${qs.length}</span></div></div></div>
+  <div class="qbar"><button class="btn btn-ghost" data-act="home">${ICON.home} Domů</button><div class="qbar-mid"><div class="qbar-row"><span>Sporná místa</span><span>${qs.length}</span></div></div></div>
   <div class="disputes">
     <div>
       <h1>Kde se zdroje rozcházejí</h1>
@@ -712,9 +746,9 @@ function viewDisputes() {
 }
 
 /* ════════════════════════ Akce ════════════════════════ */
-function startQuiz(mode, qs, title) {
+function startQuiz(mode, qs, title, key) {
   if (!qs.length) { toast('Tady teď nic k procvičení není.'); return; }
-  V = { screen: 'quiz', mode, title, items: qs.map(makeItem), i: 0 };
+  V = { screen: 'quiz', mode, title, key, items: qs.map(makeItem), i: 0 };
   render(); toTop();
 }
 
@@ -731,6 +765,7 @@ function toggle(orig) {
     if (k >= 0) it.sel.splice(k, 1); else it.sel.push(orig);
   } else it.sel = [orig];
   V.confirmSubmit = false;
+  V.just = orig;
   if (it.q.t === 'tf' && V.mode !== 'exam') return check(false);
   render();
 }
@@ -755,7 +790,7 @@ function check(dunno) {
 function next() {
   if (V.i < V.items.length - 1) { V.i++; V.confirmQuit = false; render(); toTop(); return; }
   if (V.mode === 'exam') return submit();
-  V.screen = 'summary'; render(); toTop();
+  finishPractice();
 }
 function prev() { if (V.i > 0) { V.i--; render(); toTop(); } }
 
@@ -780,23 +815,33 @@ function submit() {
 
 function quit() {
   if (V.screen === 'quiz' && V.mode === 'exam' && V.items.some(answered) && !V.confirmQuit) { V.confirmQuit = true; render(); return; }
-  if (V.screen === 'quiz' && V.mode === 'practice' && V.items.some(x => x.done)) { V.screen = 'summary'; render(); toTop(); return; }
-  if (V.screen === 'recall' && V.items.some(x => x.g)) { V.items = V.items.filter(x => x.g); V.screen = 'recallDone'; render(); toTop(); return; }
+  if (V.screen === 'quiz' && V.mode === 'practice' && V.items.some(x => x.done)) { finishPractice(); return; }
+  if (V.screen === 'recall' && V.items.some(x => x.g)) { finishRecall(); return; }
   goHome();
+}
+function finishPractice() {
+  const done = V.items.filter(x => x.done);
+  recordSession(V.key, done.filter(x => x.ok).length, done.length);
+  V.screen = 'summary'; render(); toTop();
+}
+function finishRecall() {
+  V.items = V.items.filter(x => x.g);
+  recordSession('recall', V.items.filter(x => x.g === 'ok').length, V.items.length);
+  V.screen = 'recallDone'; render(); toTop();
 }
 function goHome() { V = { screen: 'home' }; render(); toTop(); }
 
 const ACT = {
   exam: () => startQuiz('exam', pickExam(), 'Zkouška nanečisto'),
-  daily: () => startQuiz('practice', pickSpaced('q', QB, DAILY_N), 'Dnešní opakování'),
-  short: () => startQuiz('practice', pickSpaced('q', QB, SHORT_N), 'Krátké opakování'),
-  myths: () => startQuiz('practice', pickSpaced('q', QB.filter(q => q.t === 'tf'), MYTH_N), 'Pravda, nebo mýtus?'),
-  pictures: () => startQuiz('practice', pickSpaced('q', QB.filter(hasPic), PIC_N), 'Obrázky a fotky'),
-  orderMatch: () => startQuiz('practice', pickSpaced('q', QB.filter(q => q.t === 'order' || q.t === 'match'), MIX_N), 'Seřaď a přiřaď'),
-  mistakes: () => startQuiz('practice', shuffle(QB.filter(q => boxOf('q', q.id) === 1)), 'Opravit chyby'),
+  daily: () => startQuiz('practice', pickSpaced('q', QB, DAILY_N), 'Dnešní opakování', 'daily'),
+  short: () => startQuiz('practice', pickSpaced('q', QB, SHORT_N), 'Krátké opakování', 'short'),
+  myths: () => startQuiz('practice', pickSpaced('q', QB.filter(q => q.t === 'tf'), MYTH_N), 'Pravda, nebo mýtus?', 'myths'),
+  pictures: () => startQuiz('practice', pickSpaced('q', QB.filter(hasPic), PIC_N), 'Obrázky a fotky', 'pictures'),
+  orderMatch: () => startQuiz('practice', pickSpaced('q', QB.filter(q => q.t === 'order' || q.t === 'match'), MIX_N), 'Seřaď a přiřaď', 'orderMatch'),
+  mistakes: () => startQuiz('practice', shuffle(QB.filter(q => boxOf('q', q.id) === 1)), 'Opravit chyby', 'mistakes'),
   recall: startRecall,
   disputes: () => { V = { screen: 'disputes' }; render(); toTop(); },
-  practiceDisputes: () => startQuiz('practice', shuffle(QB.filter(q => q.alt)), 'Sporná místa'),
+  practiceDisputes: () => startQuiz('practice', shuffle(QB.filter(q => q.alt)), 'Sporná místa', 'disputes'),
   topic: el => startQuiz('practice', pickWeakFirst(QB.filter(q => q.c === el.dataset.k)), CAT[el.dataset.k].n),
   page: el => { const p = +el.dataset.p; startQuiz('practice', pickWeakFirst(QB.filter(q => pagesOf(q.src).includes(p))), `Skripta s. ${p}`); },
   opt: el => toggle(+el.dataset.o),
@@ -814,7 +859,7 @@ const ACT = {
     gradeItem('r', it.c.id, it.g);
     save();
     if (V.i < V.items.length - 1) { V.i++; render(); toTop(); }
-    else { V.screen = 'recallDone'; render(); toTop(); }
+    else finishRecall();
   },
   install: async () => {
     if (!installPrompt) return;
