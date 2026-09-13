@@ -73,7 +73,7 @@ Náměty obrázkových otázek vycházejí z ilustrací v příručce ČČK a ve
 
 ## Ikony a písmo
 
-Ikony: [Lucide](https://lucide.dev), licence ISC. Písmo nadpisů a otázek: [Atkinson Hyperlegible Next](https://fonts.google.com/specimen/Atkinson+Hyperlegible+Next) (Braille Institute, SIL OFL), text: IBM Plex Sans a IBM Plex Mono (SIL OFL).
+Ikony: [Lucide](https://lucide.dev), licence ISC. Písmo nadpisů a otázek: [Lexend](https://fonts.google.com/specimen/Lexend), čísla: [Chivo Mono](https://fonts.google.com/specimen/Chivo+Mono), text: IBM Plex Sans (vše SIL OFL). Všechna písma mají nulu bez přeškrtnutí.
 
 ## Upozornění
 
