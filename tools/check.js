@@ -4,7 +4,7 @@
 const path = require('path');
 global.window = {};
 const dir = path.join(__dirname, '..', 'app');
-for (const f of ['figs', 'bank1', 'bank2', 'bank3', 'bank4', 'bank5', 'bank6', 'revize', 'recall', 'coverage']) require(path.join(dir, f + '.js'));
+for (const f of ['figs', 'bank1', 'bank2', 'bank3', 'bank4', 'bank5', 'bank6', 'bank7', 'revize', 'recall', 'coverage']) require(path.join(dir, f + '.js'));
 
 const REV = window.QREV, FIG = window.FIG, RC = window.RC, COVERAGE = window.COVERAGE;
 const QB = window.QB.map(raw => {
@@ -15,7 +15,7 @@ const QB = window.QB.map(raw => {
   return q;
 });
 
-const cats = ['zakon', 'povinnosti', 'hygiena', 'lekarna', 'nemoci', 'zaklady', 'rany', 'kosti', 'stavy', 'prostredi', 'voda', 'kpr'];
+const cats = ['anatomie', 'zakon', 'povinnosti', 'hygiena', 'lekarna', 'nemoci', 'zaklady', 'rany', 'kosti', 'stavy', 'prostredi', 'voda', 'kpr'];
 const errs = [], warns = [], ids = new Set(), byType = {}, byCat = {}, pages = {};
 
 for (const id of [...Object.keys(REV.set), ...Object.keys(REV.add)]) if (!window.QB.some(q => q.id === id)) errs.push('revize míří na neexistující otázku ' + id);

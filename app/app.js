@@ -31,6 +31,7 @@ const CATS = [
   { k: 'povinnosti', n: 'Zdravotník a dokumentace',     p: 's. 5–6' },
   { k: 'lekarna',    n: 'Lékárnička a léky',            p: 's. 6, 10' },
   { k: 'hygiena',    n: 'Hygiena a epidemiologie',      p: 's. 7–9' },
+  { k: 'anatomie',   n: 'Stavba lidského těla',         p: 'osnova kurzu' },
   { k: 'zaklady',    n: 'Základy první pomoci',         p: 's. 11–13' },
   { k: 'rany',       n: 'Rány, krvácení, obvazy',       p: 's. 13–18' },
   { k: 'kosti',      n: 'Úrazy, břicho, hlava, páteř',  p: 's. 18–22, 27–28, 32–33' },

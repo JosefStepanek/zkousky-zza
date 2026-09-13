@@ -17,7 +17,7 @@ Postup se ukládá jen v `localStorage` prohlížeče — žádný server ani da
 
 | | |
 |---|---|
-| Otázky | 384 (výběr jedné i více odpovědí, pravda/mýtus, seřazení, přiřazení, obrázkové) |
+| Otázky | 443 (výběr jedné i více odpovědí, pravda/mýtus, seřazení, přiřazení, obrázkové) |
 | Kartičky „Vybav si“ | 46 |
 | Témata skript | 217 nadpisů ze s. 3–36, každé má aspoň jednu otázku |
 
@@ -26,6 +26,7 @@ Zdroje otázek:
 - výuková skripta kurzu *Zdravotník zotavovacích akcí* (Zdravotníci s.r.o.) včetně ručních poznámek z kurzu — primární zdroj, podle nich se zkouší,
 - *Zdravotník zotavovacích akcí — výukové materiály* (Oblastní spolek ČČK Praha 1),
 - *Příručka zdravotníka zotavovacích akcí* (Český červený kříž, 2017),
+- *Zdravotník zotavovacích akcí — výuková skripta* (First Responder – Záchranáři Česká Lípa, příloha k dokumentu MŠMT) — anatomie, vyšetření, infekce, psychologie; legislativní část vychází z neplatné vyhlášky 148/2004 Sb. a nepřebírá se,
 - zákon č. 258/2000 Sb. a vyhláška č. 106/2001 Sb.
 
 Otázky a vysvětlení jsou vlastní text, zdrojové PDF v repozitáři nejsou. U každé otázky je uvedena strana zdroje.
@@ -36,7 +37,7 @@ Otázky a vysvětlení jsou vlastní text, zdrojové PDF v repozitáři nejsou. 
 app/
   index.html        stránka a styly
   app.js            logika aplikace
-  bank1–5.js        banka otázek
+  bank1–7.js        banka otázek
   revize.js         doplněné chybné možnosti a přepsané otázky
   recall.js         kartičky „Vybav si“
   coverage.js       mapa témat skript po stranách
@@ -49,7 +50,7 @@ tools/
 
 ## Úpravy
 
-1. Otázky jsou v `app/bank*.js`. Formát je popsaný v hlavičce `bank5.js`.
+1. Otázky jsou v `app/bank*.js`. Formát je popsaný v hlavičce `bank5.js`. Okruh „Stavba lidského těla“ (`bank7.js`) vychází z osnovy kurzu, ne z Daniných skript.
 2. Spusť kontrolu: `node tools/check.js` — ověří klíče odpovědí, typy otázek, obrázky, počet chybných možností a pokrytí všech témat skript.
 3. Zvyš číslo verze `?v=` v `index.html` a `VERSION` v `sw.js`, aby se nová verze načetla i v nainstalované aplikaci.
 4. Nahraj obsah složky `app/` na hosting.

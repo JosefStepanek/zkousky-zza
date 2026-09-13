@@ -5,6 +5,30 @@
    se nemění, protože se připojuje až za stávající možnosti. */
 window.QREV = {
   set: {
+    sta04: {
+      alt: {
+        t: 'Jinak ve skriptech First Responder',
+        x: 'Skripta First Responder Česká Lípa uvádějí, že akutní laryngitida nejvíce ohrožuje děti do 3 let, začíná pozvolna v noci, a jako první pomoc doporučují chladný vzduch (ven nebo k otevřené lednici), polosed a přivolání ZZS. Rozlišují také epiglotitidu — bakteriální zánět příklopky hrtanové s náhlým začátkem, horečkou 39–40 °C a slintáním; dítě se nikdy nepokládá a volá se 155. U zkoušky platí verze ze skript: do 8 let.'
+      }
+    },
+    sta11: {
+      alt: {
+        t: 'Jinak ve skriptech First Responder',
+        x: 'Skripta First Responder Česká Lípa uvádějí febrilní křeče u dětí zhruba od 6 měsíců do 5 let při teplotě nad 38,5 °C. U zkoušky platí verze ze skript: hlavně u dětí do 8 let.'
+      }
+    },
+    ran08: {
+      alt: {
+        t: 'Doplnění ze skript First Responder',
+        x: 'Skripta First Responder Česká Lípa u uštknutí zmijí zdůrazňují: končetinu neškrtit, ránu nenařezávat, nevypalovat a nevysávat; postiženého uklidnit, zabránit pohybu, protišoková poloha, dezinfekce, sterilní krytí, znehybnění a transport do nemocnice. Lehkou kompresi elastickým obvazem, kterou uvádějí Danina skripta, nezmiňují — nesmí se ale zaměnit se škrcením.'
+      }
+    },
+    ran09: {
+      alt: {
+        t: 'Jinak ve skriptech First Responder',
+        x: 'Skripta First Responder Česká Lípa doporučují klíště před vytažením usmrtit jodovou tinkturou, poté ho vykývat pinzetou a místo znovu dezinfikovat jodovou tinkturou. Ruční poznámka z kurzu naopak radí jodové dezinfekce nekupovat a Danina skripta klíště ničím nenatírají. U zkoušky platí verze ze skript.'
+      }
+    },
     vod05: {
       m: false,
       q: 'Dítě se topí asi 4 metry od břehu, je při vědomí a vy máte po ruce záchranný kruh na laně. Jaký způsob záchrany zvolíte?',
