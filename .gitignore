@@ -1,0 +1,10 @@
+# Zdrojové materiály (autorská díla, osobní sken) se do repozitáře nedávají
+*.pdf
+
+# Přístupy k FTP
+.vscode/
+
+node_modules/
+Thumbs.db
+desktop.ini
+.DS_Store
