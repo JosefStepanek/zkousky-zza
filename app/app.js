@@ -831,7 +831,7 @@ function viewSummary() {
   return `
 <div class="result">
   <div class="eyebrow">${esc(V.title)} — shrnutí</div>
-  ${heroBlock(t, PRACTICE_SUB[t.k])}
+  ${heroBlock(t, p === 100 && V.key !== 'mistakes' && V.title !== 'Oprava chyb' ? 'Gratulace!' : PRACTICE_SUB[t.k])}
   <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${items.length}</small></span></div>
   <p>${p} % správně. ${wrong.length ? 'Chybné otázky se ti vrátí v Dnešním opakování a v Opravit chyby.' : 'Všechno správně.'}</p>
   ${goalMeter(p)}
@@ -880,7 +880,7 @@ function viewRecallDone() {
   return `
 <div class="result">
   <div class="eyebrow">Vybav si — shrnutí</div>
-  ${heroBlock(t, PRACTICE_SUB[t.k])}
+  ${heroBlock(t, p === 100 ? 'Gratulace!' : PRACTICE_SUB[t.k])}
   <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${n}</small></span></div>
   <p>Vím ${ok} · napůl ${half} · nevím ${bad}. Kartičky, které nešly, se vrátí nejdřív.</p>
   ${badgeRow(b)}
