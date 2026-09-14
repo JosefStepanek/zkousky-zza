@@ -1,6 +1,6 @@
 /* Service worker — aplikace funguje i bez signálu.
    Při změně souborů zvyš VERSION tady i ?v= v index.html. */
-const VERSION = '14';
+const VERSION = '15';
 const CACHE = 'zza-v' + VERSION;
 const CORE = [
   './', 'index.html', 'manifest.json', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png',

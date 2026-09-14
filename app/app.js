@@ -813,7 +813,7 @@ function viewResult() {
   ${badgeRow(b)}
   ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Procvičit ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}<button class="btn" data-act="home">Domů</button>`)}
   <section><div class="section-head"><h2>Podle okruhů</h2></div>${byCatRows(items)}</section>
-  <section><div class="section-head"><h2>Rozbor otázek</h2><span class="eyebrow">chyby nahoře</span></div>${reviewList(items)}</section>
+  <section><div class="section-head"><h2>Rozbor otázek</h2>${wrong.length ? '<span class="eyebrow">chyby nahoře</span>' : ''}</div>${reviewList(items)}</section>
 </div>`;
 }
 
@@ -837,7 +837,7 @@ function viewSummary() {
   ${goalMeter(p)}
   ${badgeRow(b)}
   ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Hned zopakovat ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}<button class="btn" data-act="home">Domů</button>`)}
-  <section><div class="section-head"><h2>Rozbor</h2><span class="eyebrow">chyby nahoře</span></div>${reviewList(items)}</section>
+  <section><div class="section-head"><h2>Rozbor</h2>${wrong.length ? '<span class="eyebrow">chyby nahoře</span>' : ''}</div>${reviewList(items)}</section>
 </div>`;
 }
 
