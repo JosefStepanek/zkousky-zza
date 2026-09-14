@@ -18,6 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chivo+Mono:wght@500;600;700&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Lexend:wght@500;600;700&display=swap">
+<script>try { var t = localStorage.getItem('zza-theme'); if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t); } catch (e) {}</script>
 <style>
 /* ── Tokeny ──────────────────────────────────────────────
    Papír zdravotnického deníku, inkoust, červená = chyba,
@@ -487,6 +488,15 @@ p { margin: 0; }
 .streak { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px 5px 8px; border-radius: 99px; background: var(--warn-wash); color: var(--warn); font: 600 .75rem/1 var(--f-mono); white-space: nowrap; }
 .streak .ic { width: 1rem; height: 1rem; }
 .streak.cold { background: var(--sunk); color: var(--ink-3); }
+.top-end { display: flex; align-items: center; gap: var(--s-2); flex: none; }
+.theme-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px 0 10px; border: 1px solid var(--rule-strong); border-radius: 99px; background: transparent; color: var(--ink-2); font: 600 .75rem/1 var(--f-mono); cursor: pointer; transition: border-color .15s, color .15s, background .15s; }
+.theme-btn:hover { color: var(--ink); border-color: var(--ink-2); background: var(--surface); }
+.theme-btn .ic { width: 1rem; height: 1rem; transition: transform .3s; }
+@media (max-width: 480px) { .theme-btn { width: 40px; padding: 0; justify-content: center; } .theme-btn span { display: none; } }
+@media (prefers-reduced-motion: no-preference) {
+  .theme-anim, .theme-anim *, .theme-anim *::before, .theme-anim *::after { transition: background-color .35s, color .35s, border-color .35s, fill .35s !important; }
+  .theme-btn:hover .ic { transform: rotate(30deg); }
+}
 .run { display: inline-flex; align-items: center; gap: 3px; color: var(--warn); font-weight: 600; }
 .run .ic { width: .875rem; height: .875rem; }
 .hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-4); align-items: center; }
@@ -512,18 +522,18 @@ p { margin: 0; }
 </div>
 
 <!-- Při úpravě souborů zvyš číslo verze tady i v sw.js, aby prohlížeče nenačetly starou verzi z cache. -->
-<script src="figs.js?v=7"></script>
-<script src="bank1.js?v=7"></script>
-<script src="bank2.js?v=7"></script>
-<script src="bank3.js?v=7"></script>
-<script src="bank4.js?v=7"></script>
-<script src="bank5.js?v=7"></script>
-<script src="bank6.js?v=7"></script>
-<script src="bank7.js?v=7"></script>
-<script src="revize.js?v=7"></script>
-<script src="recall.js?v=7"></script>
-<script src="coverage.js?v=7"></script>
-<script src="icons.js?v=7"></script>
-<script src="app.js?v=7"></script>
+<script src="figs.js?v=8"></script>
+<script src="bank1.js?v=8"></script>
+<script src="bank2.js?v=8"></script>
+<script src="bank3.js?v=8"></script>
+<script src="bank4.js?v=8"></script>
+<script src="bank5.js?v=8"></script>
+<script src="bank6.js?v=8"></script>
+<script src="bank7.js?v=8"></script>
+<script src="revize.js?v=8"></script>
+<script src="recall.js?v=8"></script>
+<script src="coverage.js?v=8"></script>
+<script src="icons.js?v=8"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

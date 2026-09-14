@@ -12,7 +12,7 @@ Webová aplikace na přípravu ke zkoušce **Zdravotník zotavovacích akcí** (
 - Procvičování po okruzích i po stranách skript.
 - **Oslavy a série** — výsledek ve čtyřech variantách podle úspěšnosti (konfety od hranice 82 %), odznaky za osobní rekord a zlepšení, série správných odpovědí a dní s procvičováním. Při zapnutém „omezit pohyb“ v systému se animace vypínají.
 
-Postup se ukládá jen v `localStorage` prohlížeče — žádný server ani databáze.
+Světlý nebo tmavý motiv se přepíná tlačítkem v hlavičce (Auto → Světlý → Tmavý). Postup i volba motivu se ukládají jen v `localStorage` prohlížeče — žádný server ani databáze.
 
 ## Obsah
 

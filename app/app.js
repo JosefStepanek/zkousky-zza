@@ -74,6 +74,27 @@ const plural = (n, one, few, many) => n === 1 ? one : (n >= 2 && n <= 4 ? few : 
 const lsGet = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
 const lsSet = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* ignorovat */ } };
 
+// Světlý / tmavý motiv: auto = podle systému; volba se pamatuje jen v tomto zařízení
+const THEME_KEY = 'zza-theme';
+const THEMES = {
+  auto: { ic: 'sunMoon', n: 'Auto', t: 'Motiv podle systému' },
+  light: { ic: 'sun', n: 'Světlý', t: 'Světlý motiv' },
+  dark: { ic: 'moon', n: 'Tmavý', t: 'Tmavý motiv' }
+};
+const NEXT_THEME = { auto: 'light', light: 'dark', dark: 'auto' };
+const THEME_BAR = { light: '#F2F4F1', dark: '#0D1311' };
+let theme = (() => { try { const t = localStorage.getItem(THEME_KEY); return THEMES[t] ? t : 'auto'; } catch (e) { return 'auto'; } })();
+const themeMetas = [...document.querySelectorAll('meta[name="theme-color"]')].map(m => ({ m, media: m.getAttribute('media'), color: m.getAttribute('content') }));
+function applyTheme() {
+  const root = document.documentElement;
+  if (theme === 'auto') root.removeAttribute('data-theme'); else root.setAttribute('data-theme', theme);
+  for (const x of themeMetas) {
+    if (theme === 'auto') { x.m.setAttribute('media', x.media); x.m.setAttribute('content', x.color); }
+    else { x.m.removeAttribute('media'); x.m.setAttribute('content', THEME_BAR[theme]); }
+  }
+}
+applyTheme();
+
 function relTime(ts) {
   const m = Math.round((Date.now() - ts) / 60000);
   if (m < 1) return 'právě teď';
@@ -406,7 +427,10 @@ function viewHome() {
   return `
 <header class="top">
   <div class="brand">${CROSS}<div><div class="brand-name">Zkoušky ZZA</div><div class="brand-sub">Zdravotník zotavovacích akcí</div></div></div>
+  <div class="top-end">
   ${streak ? `<span class="streak${today ? '' : ' cold'}" title="${today ? 'Dnes už procvičeno' : 'Dnes ještě neprocvičeno — sérii udrží i Krátké opakování'}">${ICON.flame}${streak} ${plural(streak, 'den', 'dny', 'dní')} v řadě</span>` : ''}
+  <button class="theme-btn" data-act="theme" title="${THEMES[theme].t} — klepnutím přepneš" aria-label="${THEMES[theme].t}, přepnout">${ICON[THEMES[theme].ic]}<span>${THEMES[theme].n}</span></button>
+  </div>
 </header>
 
 <div class="home">
@@ -979,6 +1003,15 @@ const ACT = {
   dunno: () => check(true),
   next, prev, submit, quit,
   home: goHome,
+  theme: () => {
+    theme = NEXT_THEME[theme];
+    lsSet(THEME_KEY, theme);
+    const root = document.documentElement;
+    if (!reduced) { root.classList.add('theme-anim'); setTimeout(() => root.classList.remove('theme-anim'), 450); }
+    applyTheme();
+    render();
+    toast(THEMES[theme].t);
+  },
   practiceWrong: () => startQuiz('practice', shuffle(V.items.filter(x => !x.ok).map(x => x.q)), 'Oprava chyb'),
   reveal: () => { cur().shown = true; render(); },
   grade: el => {
