@@ -115,7 +115,14 @@ p { margin: 0; }
 .opts.tf .txt { display: flex; align-items: center; gap: var(--s-2); }
 
 /* ── Animace (jen když systém nežádá omezení pohybu) ── */
-@keyframes rise { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes riseSoft { from { opacity: .4; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes heroPop { 0% { opacity: 0; transform: scale(.3) rotate(-25deg); } 60% { opacity: 1; transform: scale(1.18) rotate(8deg); } 100% { opacity: 1; transform: none; } }
+@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-14deg); } 75% { transform: rotate(14deg); } }
+@keyframes bdgIn { from { opacity: 0; transform: translateY(10px) scale(.9); } }
+@keyframes okFlash { from { background: color-mix(in srgb, var(--ok) 45%, var(--surface)); } }
+@keyframes badFlash { from { background: color-mix(in srgb, var(--pen) 40%, var(--surface)); } }
+@keyframes flicker { 0%, 100% { transform: scale(1) rotate(0); } 50% { transform: scale(1.2) rotate(-8deg); } }
 @keyframes pop { 0% { transform: scale(.7); } 60% { transform: scale(1.18); } 100% { transform: scale(1); } }
 @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-3px); } 80% { transform: translateX(2px); } }
 @keyframes grow { from { width: var(--from, 0%); } }
@@ -123,12 +130,22 @@ p { margin: 0; }
 @keyframes stamp { 0% { opacity: 0; transform: rotate(-4deg) scale(1.7); } 70% { opacity: 1; transform: rotate(-4deg) scale(.94); } 100% { opacity: 1; transform: rotate(-4deg) scale(1); } }
 @keyframes toastIn { from { opacity: 0; transform: translate(-50%, 12px); } }
 @media (prefers-reduced-motion: no-preference) {
-  .enter .home > *, .enter .quiz > *, .enter .result > *, .enter > .top { animation: rise .34s cubic-bezier(.2,.7,.3,1) both; }
-  .enter .home > :nth-child(2), .enter .quiz > :nth-child(2), .enter .result > :nth-child(2) { animation-delay: .04s; }
-  .enter .home > :nth-child(3), .enter .quiz > :nth-child(3), .enter .result > :nth-child(3) { animation-delay: .08s; }
-  .enter .home > :nth-child(4), .enter .result > :nth-child(4) { animation-delay: .12s; }
-  .enter .home > :nth-child(5), .enter .result > :nth-child(5) { animation-delay: .16s; }
-  .enter .home > :nth-child(n+6) { animation-delay: .2s; }
+  .enter .home > *, .enter .result > *, .enter > .top { animation: rise .5s cubic-bezier(.2,.7,.3,1) both; }
+  .enter .quiz > * { animation: riseSoft .34s cubic-bezier(.2,.7,.3,1) both; }
+  .enter .home > :nth-child(2), .enter .quiz > :nth-child(2), .enter .result > :nth-child(2) { animation-delay: .07s; }
+  .enter .home > :nth-child(3), .enter .quiz > :nth-child(3), .enter .result > :nth-child(3) { animation-delay: .14s; }
+  .enter .home > :nth-child(4), .enter .result > :nth-child(4) { animation-delay: .21s; }
+  .enter .home > :nth-child(5), .enter .result > :nth-child(5) { animation-delay: .28s; }
+  .enter .home > :nth-child(n+6), .enter .result > :nth-child(n+6) { animation-delay: .35s; }
+  .enter .hero-ic { animation: heroPop .7s cubic-bezier(.3,1.5,.5,1) .15s both; }
+  .enter .hero[data-tier="top"] .hero-ic .ic { animation: wiggle .5s ease-in-out .9s 3; }
+  .enter .bdg { animation: bdgIn .45s cubic-bezier(.2,.7,.3,1) .8s both; }
+  .enter .bdg:nth-child(2) { animation-delay: .95s; }
+  .enter .bdg:nth-child(3) { animation-delay: 1.1s; }
+  .enter .streak .ic { animation: flicker .9s ease-in-out .5s 3; }
+  .flash-ok .is-right { animation: okFlash .9s ease-out; }
+  .flash-bad .is-wrong { animation: badFlash .9s ease-out, shake .42s ease-in-out; }
+  .run.bump { animation: pop .4s ease-out; }
   .enter .meter > i { animation: fill 1s cubic-bezier(.2,.7,.3,1) .15s both; }
   .opt.just .box, .ofig.just .box, .opts.tf .opt.just { animation: pop .26s ease-out; }
   .verdict[data-ok="1"] .ic { animation: pop .4s ease-out; }
@@ -466,6 +483,25 @@ p { margin: 0; }
 .versus .jinde .eyebrow { color: var(--warn); }
 .versus ul, .versus ol { margin: 0; padding-left: 1.1rem; display: grid; gap: 2px; }
 
+/* ── Oslavy, série a odznaky ── */
+.streak { display: inline-flex; align-items: center; gap: 5px; padding: 5px 10px 5px 8px; border-radius: 99px; background: var(--warn-wash); color: var(--warn); font: 600 .75rem/1 var(--f-mono); white-space: nowrap; }
+.streak .ic { width: 1rem; height: 1rem; }
+.streak.cold { background: var(--sunk); color: var(--ink-3); }
+.run { display: inline-flex; align-items: center; gap: 3px; color: var(--warn); font-weight: 600; }
+.run .ic { width: .875rem; height: .875rem; }
+.hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-4); align-items: center; }
+.hero h1 { font-size: 1.75rem; line-height: 1.15; }
+.hero p { margin: var(--s-1) 0 0; color: var(--ink-2); max-width: 55ch; }
+.hero-ic { width: 3.5rem; height: 3.5rem; border-radius: 50%; display: grid; place-items: center; background: var(--sunk); color: var(--ink); }
+.hero-ic .ic { width: 1.75rem; height: 1.75rem; }
+.hero[data-tier="top"] .hero-ic, .hero[data-tier="pass"] .hero-ic { background: var(--ok-wash); color: var(--ok); }
+.hero[data-tier="top"] h1 { color: var(--ok); }
+.hero[data-tier="close"] .hero-ic { background: var(--warn-wash); color: var(--warn); }
+.badges { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.bdg { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border: 1px solid var(--rule-strong); border-radius: 99px; background: var(--surface); font-size: .875rem; font-weight: 600; }
+.bdg .ic { width: 1rem; height: 1rem; color: var(--warn); }
+.confetti { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 30; }
+
 .toast { position: fixed; left: 50%; bottom: 5.5rem; transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: var(--s-2) var(--s-4); border-radius: var(--r-2); font-size: .875rem; box-shadow: var(--shadow); z-index: 20; max-width: calc(100vw - 32px); }
 </style>
 </head>
@@ -476,18 +512,18 @@ p { margin: 0; }
 </div>
 
 <!-- Při úpravě souborů zvyš číslo verze tady i v sw.js, aby prohlížeče nenačetly starou verzi z cache. -->
-<script src="figs.js?v=6"></script>
-<script src="bank1.js?v=6"></script>
-<script src="bank2.js?v=6"></script>
-<script src="bank3.js?v=6"></script>
-<script src="bank4.js?v=6"></script>
-<script src="bank5.js?v=6"></script>
-<script src="bank6.js?v=6"></script>
-<script src="bank7.js?v=6"></script>
-<script src="revize.js?v=6"></script>
-<script src="recall.js?v=6"></script>
-<script src="coverage.js?v=6"></script>
-<script src="icons.js?v=6"></script>
-<script src="app.js?v=6"></script>
+<script src="figs.js?v=7"></script>
+<script src="bank1.js?v=7"></script>
+<script src="bank2.js?v=7"></script>
+<script src="bank3.js?v=7"></script>
+<script src="bank4.js?v=7"></script>
+<script src="bank5.js?v=7"></script>
+<script src="bank6.js?v=7"></script>
+<script src="bank7.js?v=7"></script>
+<script src="revize.js?v=7"></script>
+<script src="recall.js?v=7"></script>
+<script src="coverage.js?v=7"></script>
+<script src="icons.js?v=7"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

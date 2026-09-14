@@ -122,7 +122,7 @@ function figBlock(key, cap) {
    2 rozpracované, 3–5 naučené), n = pokusů, k = správně, t = poslední pokus.
    Ukládá se jen do localStorage tohoto prohlížeče — žádný server ani databáze. */
 const LS_KEY = 'zza-trenazer-v1';
-const blank = () => ({ v: 1, q: {}, r: {}, exams: [], last: {} });
+const blank = () => ({ v: 1, q: {}, r: {}, exams: [], last: {}, days: [] });
 function readLocal() {
   try {
     const s = JSON.parse(localStorage.getItem(LS_KEY));
@@ -141,6 +141,21 @@ function recordSession(key, ok, n) {
   save();
 }
 
+// Série dní s procvičováním (podle místního data)
+const dayKey = (d = new Date()) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+function markDay() {
+  S.days = S.days || [];
+  const k = dayKey();
+  if (S.days[S.days.length - 1] !== k) S.days = S.days.concat(k).slice(-60);
+}
+function dayStreak() {
+  const set = new Set(S.days || []), d = new Date();
+  if (!set.has(dayKey(d))) d.setDate(d.getDate() - 1);
+  let n = 0;
+  while (set.has(dayKey(d))) { n++; d.setDate(d.getDate() - 1); }
+  return n;
+}
+
 /* ════════════════════════ Opakování s rozestupy ════════════════════════ */
 const H = 3600e3;
 const INTERVAL = [0, 0, 8 * H, 24 * H, 48 * H, 96 * H];
@@ -155,6 +170,7 @@ function gradeItem(store, id, result) {           // 'ok' | 'half' | 'bad'
   else r.b = 1;
   r.t = Date.now();
   S[store][id] = r;
+  markDay();
 }
 
 function catStats(k) {
@@ -287,9 +303,10 @@ function render() {
     void $app.offsetWidth;
     $app.classList.add('enter');
     if (!reduced) $app.querySelectorAll('[data-count]').forEach(countUp);
+    if (!reduced && V.fx) { const power = V.fx; setTimeout(() => confetti(power), 380); }
   }
   lastView = viewKey;
-  V.just = null;
+  V.just = null; V.bump = false; V.flash = null; V.fx = 0;
 }
 
 function countUp(el) {
@@ -302,6 +319,46 @@ function countUp(el) {
   el.textContent = '0';
   requestAnimationFrame(step);
 }
+
+// Konfety po povedeném testu: 1 malé, 2 střední, 3 velké (dvě dávky)
+function confetti(power) {
+  const cv = document.createElement('canvas');
+  cv.className = 'confetti';
+  cv.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(cv);
+  const W = innerWidth, Hh = innerHeight, dpr = Math.min(2, devicePixelRatio || 1);
+  cv.width = W * dpr; cv.height = Hh * dpr;
+  const ctx = cv.getContext('2d');
+  ctx.scale(dpr, dpr);
+  const css = getComputedStyle(document.documentElement);
+  const cols = ['--ok', '--note', '--warn', '--pen', '--ink-2'].map(v => css.getPropertyValue(v).trim()).filter(Boolean);
+  const parts = [];
+  const burst = (x, y, n, dir) => {
+    for (let i = 0; i < n; i++) {
+      const a = dir + (Math.random() - .5) * 1.1, sp = 10 + Math.random() * 12;
+      parts.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: Math.random() * 6.3, vr: (Math.random() - .5) * .35, w: 5 + Math.random() * 5, h: 8 + Math.random() * 6, c: cols[i % cols.length], t: Math.random() * 6.3 });
+    }
+  };
+  const n = [0, 45, 80, 120][power] || 45;
+  burst(0, Hh * .8, n, -Math.PI / 3);
+  burst(W, Hh * .8, n, -Math.PI * 2 / 3);
+  if (power >= 3) setTimeout(() => burst(W / 2, Hh, 90, -Math.PI / 2), 500);
+  const t0 = performance.now(), DUR = 3800;
+  const step = t => {
+    const el = t - t0;
+    ctx.clearRect(0, 0, W, Hh);
+    ctx.globalAlpha = Math.max(0, Math.min(1, (DUR - el) / 700));
+    for (const p of parts) {
+      p.vx *= .985; p.vy = p.vy * .985 + .34; p.x += p.vx; p.y += p.vy; p.r += p.vr; p.t += .12;
+      ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r); ctx.scale(1, Math.cos(p.t));
+      ctx.fillStyle = p.c; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
+    }
+    if (el < DUR) requestAnimationFrame(step); else cv.remove();
+  };
+  requestAnimationFrame(step);
+}
+
+const RUN_TOAST = { 3: '3 správně v řadě — rozjíždíš se', 5: '5 v řadě! Jen tak dál', 10: '10 v řadě! Tohle už sedí', 15: '15 v řadě — skvělá série', 20: '20 v řadě — celé kolo bez zaváhání' };
 
 const CROSS = `<svg class="cross" viewBox="0 0 26 26" aria-hidden="true"><rect width="26" height="26" rx="5" style="fill:var(--ok)"/><path d="M10.5 5h5v5.5H21v5h-5.5V21h-5v-5.5H5v-5h5.5z" style="fill:var(--surface)"/></svg>`;
 
@@ -336,6 +393,7 @@ function viewHome() {
   const nMix = QB.filter(q => q.t === 'order' || q.t === 'match').length;
   const nDisp = QB.filter(q => q.alt).length;
   const last = S.exams[S.exams.length - 1];
+  const streak = dayStreak(), today = (S.days || []).includes(dayKey());
 
   const lastLine = last
     ? `Poslední pokus ${relTime(last.ts)}: <strong>${last.ok}/${last.n}</strong> (${pct(last.ok, last.n)} %) — ${last.ok >= PASS_N ? 'nad hranicí' : `chybělo ${PASS_N - last.ok} ${plural(PASS_N - last.ok, 'otázka', 'otázky', 'otázek')}`}. Pokusů celkem: ${S.exams.length}.`
@@ -348,6 +406,7 @@ function viewHome() {
   return `
 <header class="top">
   <div class="brand">${CROSS}<div><div class="brand-name">Zkoušky ZZA</div><div class="brand-sub">Zdravotník zotavovacích akcí</div></div></div>
+  ${streak ? `<span class="streak${today ? '' : ' cold'}" title="${today ? 'Dnes už procvičeno' : 'Dnes ještě neprocvičeno — sérii udrží i Krátké opakování'}">${ICON.flame}${streak} ${plural(streak, 'den', 'dny', 'dní')} v řadě</span>` : ''}
 </header>
 
 <div class="home">
@@ -572,11 +631,11 @@ function viewQuiz() {
       <div class="progress"><i style="--from:${progFrom}%;width:${prog}%"></i></div>
       <div class="qbar-row">${exam
         ? `<span>zodpovězeno ${answeredN}</span><span>k úspěchu ${PASS_N} správně</span>`
-        : `<span>správně ${okN} · chyby ${badN}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
+        : `<span>správně ${okN} · chyby ${badN}${V.run >= 2 ? ` · <span class="run${V.bump ? ' bump' : ''}">${ICON.flame}${V.run} v řadě</span>` : ''}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
     </div>
   </div>
 
-  <article class="qcard">
+  <article class="qcard${V.flash ? ' flash-' + V.flash : ''}">
     <div class="qmeta">
       <span class="stamp">${esc(CAT[q.c].n)}</span>
       ${!exam && q.alt ? '<span class="stamp warn">sporné</span>' : ''}
@@ -639,20 +698,63 @@ function byCatRows(items) {
 
 const inlineActions = html => `<div class="actions-inline">${html}</div>`;
 
+// Výsledek podle úspěšnosti: nadpis, ikona a síla konfet (0 = bez konfet)
+function tierOf(p, pass) {
+  if (p === 100) return { k: 'top', ic: 'trophy', h: 'Plný počet!', fx: 3 };
+  if (pass && p >= 90) return { k: 'top', ic: 'partyPopper', h: 'Výborně!', fx: 2 };
+  if (pass) return { k: 'pass', ic: 'star', h: 'Zvládnuto', fx: 1 };
+  if (p >= 60) return { k: 'close', ic: 'trendingUp', h: 'Už to skoro je', fx: 0 };
+  return { k: 'start', ic: 'sprout', h: 'Dobrý začátek', fx: 0 };
+}
+const EXAM_SUB = {
+  top: 'S takovým výsledkem se na zkoušku jde s klidem.',
+  pass: 'Nad hranicí. Projdi chyby níž, ať je rezerva větší.',
+  close: 'Do hranice chybí kousek. Chyby níž si projdi hned — teď se vryjí nejvíc.',
+  start: 'Chyby teď nevadí, zkoušení naučí víc než čtení. Pokračuj opravou chyb a Krátkým opakováním.'
+};
+const PRACTICE_SUB = {
+  top: 'Tohle už sedí. Otázky se vrátí až za pár dní.',
+  pass: 'Povedené kolo. Chyby se ti vrátí brzy.',
+  close: 'Kousek pod 82 %. Chyby si zopakuj hned, dokud jsou čerstvé.',
+  start: 'Každá chyba je otázka, kterou se teď naučíš. Zopakuj je hned.'
+};
+const heroBlock = (t, sub) => `<div class="hero" data-tier="${t.k}"><span class="hero-ic">${ICON[t.ic]}</span><div><h1>${t.h}</h1><p>${sub}</p></div></div>`;
+const goalMeter = p => `<div class="goal"><div class="meter" data-pass="${p >= 82 ? 1 : 0}" role="img" aria-label="Úspěšnost ${p} procent, hranice 82 procent"><i style="width:${p}%"></i><span class="tick"></span></div><div class="meter-labels"><span>0 %</span><span class="t82">82 %</span><span>100 %</span></div></div>`;
+const badge = (ic, text) => `<span class="bdg">${ICON[ic]}${esc(text)}</span>`;
+const badgeRow = b => b.length ? `<div class="badges">${b.join('')}</div>` : '';
+function streakBadge(b) {
+  const s = dayStreak();
+  if (s >= 2) b.push(badge('flame', `${s} ${plural(s, 'den', 'dny', 'dní')} v řadě s procvičováním`));
+}
+function prevBadge(b, p) {
+  if (!V.prev || !V.prev.n) return;
+  const d = p - pct(V.prev.ok, V.prev.n);
+  if (d > 0) b.push(badge('trendingUp', `O ${d} % lépe než minule`));
+}
+
 function viewResult() {
   const items = V.items, n = items.length;
   const ok = items.filter(x => x.ok).length, pass = ok >= PASS_N;
   const wrong = items.filter(x => !x.ok);
+  const p = pct(ok, n), t = tierOf(p, pass);
+  V.fx = t.fx;
+  const b = [];
+  if (V.prevBest != null && ok > V.prevBest) b.push(badge('trophy', `Nový osobní rekord (+${ok - V.prevBest})`));
+  if (pass && V.firstPass) b.push(badge('star', 'Poprvé nad hranicí'));
+  streakBadge(b);
   return `
 <div class="result">
   <div class="eyebrow">Zkouška nanečisto — výsledek</div>
+  ${heroBlock(t, EXAM_SUB[t.k])}
   <div class="score">
     <span class="score-big"><span data-count="${ok}">${ok}</span><small>/${n}</small></span>
     <span class="stampbig ${pass ? 'pass' : 'fail'}">${pass ? 'nad hranicí' : 'pod hranicí'}</span>
   </div>
-  <p>${pct(ok, n)} % správně. Hranice je ${PASS_N} správně (82 %). ${pass
+  <p>${p} % správně. Hranice je ${PASS_N} správně (82 %). ${pass
     ? (ok === n ? 'Bez jediné chyby.' : `Rezerva ${ok - PASS_N} ${plural(ok - PASS_N, 'otázka', 'otázky', 'otázek')}.`)
     : `Chybělo ${PASS_N - ok} ${plural(PASS_N - ok, 'správná odpověď', 'správné odpovědi', 'správných odpovědí')}.`}</p>
+  ${goalMeter(p)}
+  ${badgeRow(b)}
   ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Procvičit ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}<button class="btn" data-act="home">Domů</button>`)}
   <section><div class="section-head"><h2>Podle okruhů</h2></div>${byCatRows(items)}</section>
   <section><div class="section-head"><h2>Rozbor otázek</h2><span class="eyebrow">chyby nahoře</span></div>${reviewList(items)}</section>
@@ -664,11 +766,20 @@ function viewSummary() {
   if (!items.length) { V = { screen: 'home' }; return viewHome(); }
   const ok = items.filter(x => x.ok).length;
   const wrong = items.filter(x => !x.ok);
+  const p = pct(ok, items.length), t = tierOf(p, p >= 82);
+  V.fx = items.length >= 5 ? t.fx : 0;
+  const b = [];
+  prevBadge(b, p);
+  if ((V.bestRun || 0) >= 5) b.push(badge('flame', `Nejdelší série ${V.bestRun} správně`));
+  streakBadge(b);
   return `
 <div class="result">
   <div class="eyebrow">${esc(V.title)} — shrnutí</div>
+  ${heroBlock(t, PRACTICE_SUB[t.k])}
   <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${items.length}</small></span></div>
-  <p>${pct(ok, items.length)} % správně. ${wrong.length ? 'Chybné otázky se ti vrátí v Dnešním opakování a v Opravit chyby.' : 'Všechno správně — tyhle otázky se odsunou na později.'}</p>
+  <p>${p} % správně. ${wrong.length ? 'Chybné otázky se ti vrátí v Dnešním opakování a v Opravit chyby.' : 'Všechno správně.'}</p>
+  ${goalMeter(p)}
+  ${badgeRow(b)}
   ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Hned zopakovat ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}<button class="btn" data-act="home">Domů</button>`)}
   <section><div class="section-head"><h2>Rozbor</h2><span class="eyebrow">chyby nahoře</span></div>${reviewList(items)}</section>
 </div>`;
@@ -703,13 +814,20 @@ function viewRecall() {
 }
 
 function viewRecallDone() {
-  const g = V.items.map(x => x.g);
+  const g = V.items.map(x => x.g), n = V.items.length;
   const ok = g.filter(x => x === 'ok').length, half = g.filter(x => x === 'half').length, bad = g.filter(x => x === 'bad').length;
+  const p = pct(ok * 2 + half, n * 2), t = tierOf(p, p >= 82);
+  V.fx = n >= 5 ? t.fx : 0;
+  const b = [];
+  prevBadge(b, pct(ok, n));
+  streakBadge(b);
   return `
 <div class="result">
   <div class="eyebrow">Vybav si — shrnutí</div>
-  <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${V.items.length}</small></span></div>
+  ${heroBlock(t, PRACTICE_SUB[t.k])}
+  <div class="score"><span class="score-big"><span data-count="${ok}">${ok}</span><small>/${n}</small></span></div>
   <p>Vím ${ok} · napůl ${half} · nevím ${bad}. Kartičky, které nešly, se vrátí nejdřív.</p>
+  ${badgeRow(b)}
   ${inlineActions('<button class="btn btn-primary" data-act="recall">Další kartičky</button><button class="btn" data-act="home">Domů</button>')}
 </div>`;
 }
@@ -780,8 +898,13 @@ function check(dunno) {
   it.ok = !dunno && isCorrect(it);
   gradeItem('q', it.q.id, it.ok ? 'ok' : 'bad');
   save();
+  V.run = it.ok ? (V.run || 0) + 1 : 0;
+  V.bestRun = Math.max(V.bestRun || 0, V.run);
+  V.bump = V.run >= 2;
+  V.flash = it.ok ? 'ok' : 'bad';
   render();
   announce(it.ok ? 'Správně' : 'Špatně');
+  if (RUN_TOAST[V.run]) toast(RUN_TOAST[V.run]);
   requestAnimationFrame(() => {
     const el = document.getElementById('explain');
     if (el) el.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
@@ -806,10 +929,12 @@ function submit() {
     const a = byCat[x.q.c] = byCat[x.q.c] || [0, 0]; a[1]++; if (x.ok) a[0]++;
   }
   const ok = V.items.filter(x => x.ok).length;
+  const prevBest = S.exams.length ? Math.max(...S.exams.map(e => e.ok)) : null;
+  const firstPass = !S.exams.some(e => e.ok >= PASS_N);
   S.exams.push({ ts: Date.now(), n: V.items.length, ok, byCat });
   S.exams = S.exams.slice(-30);
   save();
-  V = { screen: 'result', items: V.items };
+  V = { screen: 'result', items: V.items, prevBest, firstPass };
   render(); toTop();
   announce(`Výsledek ${ok} z ${EXAM_N}`);
 }
@@ -822,11 +947,13 @@ function quit() {
 }
 function finishPractice() {
   const done = V.items.filter(x => x.done);
+  V.prev = S.last && S.last[V.key];
   recordSession(V.key, done.filter(x => x.ok).length, done.length);
   V.screen = 'summary'; render(); toTop();
 }
 function finishRecall() {
   V.items = V.items.filter(x => x.g);
+  V.prev = S.last && S.last.recall;
   recordSession('recall', V.items.filter(x => x.g === 'ok').length, V.items.length);
   V.screen = 'recallDone'; render(); toTop();
 }

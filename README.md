@@ -10,6 +10,7 @@ Webová aplikace na přípravu ke zkoušce **Zdravotník zotavovacích akcí** (
 - **Pravda, nebo mýtus?**, **Obrázky a fotky**, **Seřaď a přiřaď**, **Opravit chyby**.
 - **Sporná místa** — kde se výuková skripta liší od příručky ČČK (2017) nebo od vyhlášky. V otázkách vždy platí odpověď ze skript, novější postup je uveden vedle.
 - Procvičování po okruzích i po stranách skript.
+- **Oslavy a série** — výsledek ve čtyřech variantách podle úspěšnosti (konfety od hranice 82 %), odznaky za osobní rekord a zlepšení, série správných odpovědí a dní s procvičováním. Při zapnutém „omezit pohyb“ v systému se animace vypínají.
 
 Postup se ukládá jen v `localStorage` prohlížeče — žádný server ani databáze.
 
