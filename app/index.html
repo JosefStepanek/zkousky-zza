@@ -272,9 +272,9 @@ p { margin: 0; }
 .quiz { padding-top: var(--s-3); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--s-4); }
 .qbar { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); }
 .qbar-mid { flex: 1; display: grid; gap: 6px; min-width: 0; }
-.qbar-row { display: flex; justify-content: space-between; gap: var(--s-2); font: 500 .75rem/1 var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
-.progress { height: 3px; background: var(--rule); }
-.progress i { display: block; height: 100%; background: var(--ink); transition: width .25s; }
+.qbar-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-2); font: 500 .75rem/1 var(--f-mono); color: var(--ink-2); font-variant-numeric: tabular-nums; }
+.progress { height: 6px; background: var(--rule); border-radius: 99px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--ok); border-radius: 99px; transition: width .25s; }
 
 .qcard { display: grid; gap: var(--s-4); }
 .qmeta { display: flex; flex-wrap: wrap; gap: var(--s-2); align-items: center; }
@@ -497,7 +497,7 @@ p { margin: 0; }
   .theme-anim, .theme-anim *, .theme-anim *::before, .theme-anim *::after { transition: background-color .35s, color .35s, border-color .35s, fill .35s !important; }
   .theme-btn:hover .ic { transform: rotate(30deg); }
 }
-.run { display: inline-flex; align-items: center; gap: 3px; color: var(--warn); font-weight: 600; }
+.run { display: inline-flex; align-items: center; gap: 4px; margin-left: var(--s-3); padding: 3px 8px 3px 6px; border-radius: 99px; background: var(--warn-wash); color: var(--warn); font-weight: 600; }
 .run .ic { width: .875rem; height: .875rem; }
 .hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-4); align-items: center; }
 .hero h1 { font-size: 1.75rem; line-height: 1.15; }
@@ -522,18 +522,18 @@ p { margin: 0; }
 </div>
 
 <!-- Při úpravě souborů zvyš číslo verze tady i v sw.js, aby prohlížeče nenačetly starou verzi z cache. -->
-<script src="figs.js?v=8"></script>
-<script src="bank1.js?v=8"></script>
-<script src="bank2.js?v=8"></script>
-<script src="bank3.js?v=8"></script>
-<script src="bank4.js?v=8"></script>
-<script src="bank5.js?v=8"></script>
-<script src="bank6.js?v=8"></script>
-<script src="bank7.js?v=8"></script>
-<script src="revize.js?v=8"></script>
-<script src="recall.js?v=8"></script>
-<script src="coverage.js?v=8"></script>
-<script src="icons.js?v=8"></script>
-<script src="app.js?v=8"></script>
+<script src="figs.js?v=9"></script>
+<script src="bank1.js?v=9"></script>
+<script src="bank2.js?v=9"></script>
+<script src="bank3.js?v=9"></script>
+<script src="bank4.js?v=9"></script>
+<script src="bank5.js?v=9"></script>
+<script src="bank6.js?v=9"></script>
+<script src="bank7.js?v=9"></script>
+<script src="revize.js?v=9"></script>
+<script src="recall.js?v=9"></script>
+<script src="coverage.js?v=9"></script>
+<script src="icons.js?v=9"></script>
+<script src="app.js?v=9"></script>
 </body>
 </html>

@@ -655,7 +655,7 @@ function viewQuiz() {
       <div class="progress"><i style="--from:${progFrom}%;width:${prog}%"></i></div>
       <div class="qbar-row">${exam
         ? `<span>zodpovězeno ${answeredN}</span><span>k úspěchu ${PASS_N} správně</span>`
-        : `<span>správně ${okN} · chyby ${badN}${V.run >= 2 ? ` · <span class="run${V.bump ? ' bump' : ''}">${ICON.flame}${V.run} v řadě</span>` : ''}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
+        : `<span>správně ${okN} · chyby ${badN}${V.run >= 2 ? `<span class="run${V.bump ? ' bump' : ''}">${ICON.flame}${V.run} v řadě</span>` : ''}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
     </div>
   </div>
 
