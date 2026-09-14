@@ -499,6 +499,11 @@ p { margin: 0; }
 }
 .run { display: inline-flex; align-items: center; gap: 4px; margin-left: var(--s-3); padding: 3px 8px 3px 6px; border-radius: 99px; background: var(--warn-wash); color: var(--warn); font-weight: 600; }
 .run .ic { width: .875rem; height: .875rem; }
+.qbar-row > span { white-space: nowrap; }
+.qbar-row > span:first-child { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.btn-quit { width: 40px; padding: 0; flex: none; }
+.btn-quit .ic { width: 1.25rem; height: 1.25rem; }
+@media (max-width: 480px) { .run-l { display: none; } .run { margin-left: var(--s-2); } }
 .hero { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s-4); align-items: center; }
 .hero h1 { font-size: 1.75rem; line-height: 1.15; }
 .hero p { margin: var(--s-1) 0 0; color: var(--ink-2); max-width: 55ch; }
@@ -522,18 +527,18 @@ p { margin: 0; }
 </div>
 
 <!-- Při úpravě souborů zvyš číslo verze tady i v sw.js, aby prohlížeče nenačetly starou verzi z cache. -->
-<script src="figs.js?v=10"></script>
-<script src="bank1.js?v=10"></script>
-<script src="bank2.js?v=10"></script>
-<script src="bank3.js?v=10"></script>
-<script src="bank4.js?v=10"></script>
-<script src="bank5.js?v=10"></script>
-<script src="bank6.js?v=10"></script>
-<script src="bank7.js?v=10"></script>
-<script src="revize.js?v=10"></script>
-<script src="recall.js?v=10"></script>
-<script src="coverage.js?v=10"></script>
-<script src="icons.js?v=10"></script>
-<script src="app.js?v=10"></script>
+<script src="figs.js?v=11"></script>
+<script src="bank1.js?v=11"></script>
+<script src="bank2.js?v=11"></script>
+<script src="bank3.js?v=11"></script>
+<script src="bank4.js?v=11"></script>
+<script src="bank5.js?v=11"></script>
+<script src="bank6.js?v=11"></script>
+<script src="bank7.js?v=11"></script>
+<script src="revize.js?v=11"></script>
+<script src="recall.js?v=11"></script>
+<script src="coverage.js?v=11"></script>
+<script src="icons.js?v=11"></script>
+<script src="app.js?v=11"></script>
 </body>
 </html>

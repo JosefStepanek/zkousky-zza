@@ -681,13 +681,13 @@ function viewQuiz() {
   return `
 <div class="quiz">
   <div class="qbar">
-    <button class="btn btn-ghost" data-act="quit">${V.confirmQuit ? 'Opravdu ukončit?' : ICON.x + ' Ukončit'}</button>
+    <button class="btn btn-ghost btn-quit" data-act="quit" aria-label="Ukončit" title="Ukončit">${ICON.x}</button>
     <div class="qbar-mid">
       <div class="qbar-row"><span>${esc(V.title)}</span><span>${V.i + 1} / ${n}</span></div>
       <div class="progress"><i style="--from:${progFrom}%;width:${prog}%"></i></div>
       <div class="qbar-row">${exam
         ? `<span>zodpovězeno ${answeredN}</span><span>k úspěchu ${PASS_N} správně</span>`
-        : `<span>správně ${okN} · chyby ${badN}${V.run >= 2 ? `<span class="run${V.bump ? ' bump' : ''}">${ICON.flame}${V.run} v řadě</span>` : ''}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
+        : `<span>správně ${okN} · chyby ${badN}${V.run >= 2 ? `<span class="run${V.bump ? ' bump' : ''}" title="${V.run} správně v řadě">${ICON.flame}${V.run}<span class="run-l">&nbsp;v řadě</span></span>` : ''}</span><span>${okN + badN ? `${pct(okN, okN + badN)} %` : ''}</span>`}</div>
     </div>
   </div>
 
@@ -848,7 +848,7 @@ function viewRecall() {
   return `
 <div class="quiz">
   <div class="qbar">
-    <button class="btn btn-ghost" data-act="quit">${ICON.x} Ukončit</button>
+    <button class="btn btn-ghost btn-quit" data-act="quit" aria-label="Ukončit" title="Ukončit">${ICON.x}</button>
     <div class="qbar-mid">
       <div class="qbar-row"><span>Vybav si</span><span>${V.i + 1} / ${n}</span></div>
       <div class="progress"><i style="width:${pct(V.i, n)}%"></i></div>
@@ -996,9 +996,20 @@ function submit() {
 }
 
 function quit() {
-  if (V.screen === 'quiz' && V.mode === 'exam' && V.items.some(answered) && !V.confirmQuit) { V.confirmQuit = true; render(); return; }
-  if (V.screen === 'quiz' && V.mode === 'practice' && V.items.some(x => x.done)) { finishPractice(); return; }
-  if (V.screen === 'recall' && V.items.some(x => x.g)) { finishRecall(); return; }
+  // Potvrzení jen tam, kde ukončení něco zahodí nebo uzavře kolo
+  const ask = msg => { try { return confirm(msg); } catch (e) { return true; } };
+  if (V.screen === 'quiz' && V.mode === 'exam') {
+    if (V.items.some(answered) && !ask('Ukončit zkoušku? Rozpracované odpovědi se nezapočítají.')) return;
+    return goHome();
+  }
+  if (V.screen === 'quiz' && V.items.some(x => x.done)) {
+    if (!ask('Ukončit opakování? Zobrazí se shrnutí dosavadních odpovědí.')) return;
+    return finishPractice();
+  }
+  if (V.screen === 'recall' && V.items.some(x => x.g)) {
+    if (!ask('Ukončit kartičky? Zobrazí se shrnutí.')) return;
+    return finishRecall();
+  }
   goHome();
 }
 function finishPractice() {
