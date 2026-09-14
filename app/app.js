@@ -307,6 +307,37 @@ const cur = () => V.items[V.i];
 const toTop = () => window.scrollTo({ top: 0, behavior: 'auto' });
 
 let lastView = '';
+// Rozpracované kolo přežije obnovení stránky: ukládá se po každém vykreslení kvízu nebo kartiček
+const SESSION_KEY = 'zza-session';
+function saveSession() {
+  try {
+    if (V.screen !== 'quiz' && V.screen !== 'recall') { localStorage.removeItem(SESSION_KEY); return; }
+    const items = V.items.map(x => Object.assign({}, x, x.q ? { q: x.q.id } : {}, x.c ? { c: x.c.id } : {}));
+    const { just, bump, flash, fx, confirmQuit, confirmSubmit, ...keep } = V;
+    localStorage.setItem(SESSION_KEY, JSON.stringify({ ts: Date.now(), V: Object.assign(keep, { items }) }));
+  } catch (e) { /* soukromé okno, plné úložiště */ }
+}
+function restoreSession() {
+  try {
+    const s = JSON.parse(localStorage.getItem(SESSION_KEY));
+    if (!s || !s.V || Date.now() - s.ts > 24 * H) return null;
+    const quiz = s.V.screen === 'quiz';
+    const qById = new Map(QB.map(q => [q.id, q])), cById = new Map(RC.map(c => [c.id, c]));
+    const items = (s.V.items || []).map(x => quiz ? Object.assign(x, { q: qById.get(x.q) }) : Object.assign(x, { c: cById.get(x.c) }));
+    // Otázka mohla mezitím zmizet nebo změnit počet možností — pak kolo radši zahodit
+    const valid = x => {
+      if (!quiz) return !!x.c;
+      const q = x.q;
+      if (!q) return false;
+      if (q.t === 'order') return Array.isArray(x.pool) && x.pool.length === q.items.length;
+      if (q.t === 'match') return Array.isArray(x.picks) && x.picks.length === q.pairs.length;
+      return Array.isArray(x.perm) && x.perm.every(i => i < q.o.length);
+    };
+    if (!items.length || !items.every(valid)) return null;
+    return Object.assign(s.V, { items, i: Math.min(Math.max(0, s.V.i || 0), items.length - 1) });
+  } catch (e) { return null; }
+}
+
 function render() {
   const html =
     V.screen === 'quiz' ? viewQuiz() :
@@ -328,6 +359,7 @@ function render() {
   }
   lastView = viewKey;
   V.just = null; V.bump = false; V.flash = null; V.fx = 0;
+  saveSession();
 }
 
 function countUp(el) {
@@ -1099,7 +1131,10 @@ document.addEventListener('keydown', e => {
   }
 });
 
+const resumed = restoreSession();
+if (resumed) V = resumed;
 render();
+if (resumed) toast(`Rozpracované kolo obnoveno — otázka ${V.i + 1} z ${V.items.length}.`);
 
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
   window.addEventListener('load', () => { navigator.serviceWorker.register('sw.js').catch(() => {}); });
