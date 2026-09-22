@@ -248,7 +248,7 @@ window.QB.push(
   ], a: [0, 1, 2, 3],
   why: 'Do ran se neaplikují žádné masti, léky ani zásypy. U znečištěných ran, nejčastěji odřenin, je nutné ránu důkladně vyčistit od štěrku a kamínků.',
   src: 'Skripta s. 14 a 16',
-  note: 'K dezinfekci peroxid — nehrozí po něm alergie (v poznámce „bílé balení lepší“), vedle něj Detol. Sešití zdravotník nedělá, k sblížení okrajů může použít stripy.'
+  note: 'K dezinfekci peroxid — nehrozí po něm alergie (v poznámce „bílé balení lepší“), vedle něj Dettol. Sešití zdravotník nedělá, k sblížení okrajů může použít stripy.'
 },
 {
   id: 'ran04', c: 'rany',
@@ -319,7 +319,8 @@ window.QB.push(
     'Zaškrtit končetinu turniketem'
   ], a: [0, 1, 2, 3],
   why: 'Zrychlení krevního oběhu je nežádoucí, proto klid. Odborné ošetření je nezbytné kvůli podání séra. U exotického hada je nutné zjistit přesný druh živočicha.',
-  src: 'Skripta s. 14 · ČČK příručka'
+  src: 'Skripta s. 14 · ČČK příručka',
+  note: 'Jed z rány vymačkat, ale nikdy nevysávat ústy — sliznice a drobné ranky v ústech jsou vstupní branou pro jed i infekci.'
 },
 {
   id: 'ran09', c: 'rany', m: true,
@@ -413,7 +414,7 @@ window.QB.push(
   ], a: [0, 1, 2, 3],
   why: 'Záklon hlavy je vždy chyba — dítě krev polyká, může na ni zvracet a ztráta krve se nedá odhadnout. Skripta řadí epistaxi mezi vlásečnicové krvácení a doplňují protišoková opatření.',
   src: 'Skripta s. 15',
-  note: 'Krvácí-li nos déle než 30 minut, patří dítě do nemocnice.',
+  note: 'Krvácí-li nos déle než 30 minut, patří dítě do nemocnice. Do nosu Gelitaspon (sterilní vstřebatelná želatinová houbička), nebo dámský tampon.',
   alt: {
     t: 'Novější postup ČČK (2017)',
     x: 'ČČK zásadně zakazuje ucpávat nos gázou: „Zásadně se nepokoušíme zastavit krvácení z nosu ucpáním nosu gázou nebo podobným materiálem.“ Doporučuje pevně stisknout NOSNÍ KŘÍDLA mezi prsty alespoň 5 minut a přiložit studený obklad na TÝLNÍ krajinu (ne na nos a čelo). Postižený sedí v mírném předklonu, dýchá ústy, nekašle, krev nepolyká, ale vyplivuje. Nezastaví-li se krvácení ani po postupném uvolnění tlaku, přikládá se odsávací prakový obvaz na nos a postižený se dopraví na ORL.'

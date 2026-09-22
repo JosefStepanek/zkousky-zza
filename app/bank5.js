@@ -669,7 +669,7 @@ window.QB.push(
   ], a: [0, 1, 2, 3],
   why: 'Léky na předpis v táborové lékárničce být nesmějí. Ruční poznámky z kurzu doplňují minimální rozsah z přílohy č. 4.',
   src: 'Ruční poznámky ve skriptech s. 6',
-  note: 'Dále: náplasti se zvířátky, materiál na popáleniny a rychloobvazy kvalitní.'
+  note: 'Dále: náplasti se zvířátky, materiál na popáleniny a rychloobvazy kvalitní. Materiál z kurzu: Lékárna Mělník, BexaMed, ALFA-RESCUE.'
 },
 {
   id: 'dop15', c: 'rany',

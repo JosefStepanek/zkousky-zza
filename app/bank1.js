@@ -750,7 +750,7 @@ window.QB.push(
 {
   id: 'lek06', c: 'lekarna',
   q: 'Jaký přípravek k dezinfekci kůže a povrchových ran uvádějí skripta?',
-  o: ['Detol a peroxid vodíku', 'Betadine a Jodisol', 'Líh 96 %', 'Chlornan sodný'], a: [0],
+  o: ['Dettol a peroxid vodíku', 'Betadine a Jodisol', 'Líh 96 %', 'Chlornan sodný'], a: [0],
   why: 'Vyhláška požaduje jen obecně „přípravek k dezinfekci kůže a povrchových ran“ — konkrétní značka je na zdravotníkovi.',
   src: 'Skripta s. 6',
   note: 'Ruční poznámka z kurzu: nekupovat jodové dezinfekce.',
