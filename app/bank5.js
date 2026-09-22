@@ -659,12 +659,12 @@ window.QB.push(
 },
 {
   id: 'dop14', c: 'lekarna', m: true,
-  q: 'Co ruční poznámky z kurzu doplňují k vybavení lékárničky? (více odpovědí)',
+  q: 'Co se doporučuje při vybavování táborové lékárničky nad rámec minimálního seznamu z vyhlášky? (více odpovědí)',
   o: [
     'Doplnit dva různé léky na teplotu, lék na kašel a na průjem',
     'Nekupovat jodové dezinfekce',
-    'Nitrilové rukavice ve více baleních a bezrtuťový teploměr',
-    'Čelovka místo baterky a resuscitační rouška 2×',
+    'Pořídit nitrilové rukavice ve více baleních a bezrtuťový teploměr',
+    'Vzít čelovku místo baterky a resuscitační roušku 2×',
     'Přibalit léky na předpis pro případ angíny'
   ], a: [0, 1, 2, 3],
   why: 'Léky na předpis v táborové lékárničce být nesmějí. Ruční poznámky z kurzu doplňují minimální rozsah z přílohy č. 4.',

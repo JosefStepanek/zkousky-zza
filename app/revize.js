@@ -186,7 +186,7 @@ window.QREV = {
     dop02: ['Má s sebou vlastní léky na teplotu', 'Je starší 6 let'],
     dop04: ['Ošetřovna může mít patrová lůžka', 'Léky mohou být na volně přístupné polici', 'Izolace musí být v jedné místnosti s ošetřovnou'],
     dop12: ['Úpal', 'Alergie na pyl'],
-    dop14: ['Kupovat jodovou dezinfekci Betadine', 'Rtuťový teploměr', 'Pryžové rukavice místo nitrilových'],
+    dop14: ['Kupovat jodovou dezinfekci Betadine', 'Pořídit rtuťový teploměr', 'Vzít pryžové rukavice místo nitrilových'],
     obr04: ['Krvácení z bérce', 'Zlomenina pánve']
   }
 };
