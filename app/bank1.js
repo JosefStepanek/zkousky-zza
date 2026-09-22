@@ -718,7 +718,7 @@ window.QB.push(
   ], a: [0, 1, 2],
   why: 'Tištěný seznam ve skriptech reprodukuje starší nebo zkrácenou verzi přílohy. Aktuální znění přílohy č. 4 vyhlášky 106/2001 Sb. obsahuje navíc přípravky proti teplotě a bolestem, při průjmu a proti kašli. Pro zkoušku je autoritativní znění vyhlášky.',
   src: 'Příloha č. 4 vyhlášky 106/2001 Sb. · skripta s. 6',
-  note: 'Ruční doplněk v jejích skriptech to potvrzuje: „+ 2 léky na teploty, + na kašel, + na průjem“.'
+  note: 'Ruční doplněk ve skriptech to potvrzuje: „+ 2 léky na teploty, + na kašel, + na průjem“.'
 },
 {
   id: 'lek03', c: 'lekarna',

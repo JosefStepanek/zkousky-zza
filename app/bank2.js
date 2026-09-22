@@ -247,7 +247,8 @@ window.QB.push(
     'Zásyp práškovým antibiotikem'
   ], a: [0, 1, 2, 3],
   why: 'Do ran se neaplikují žádné masti, léky ani zásypy. U znečištěných ran, nejčastěji odřenin, je nutné ránu důkladně vyčistit od štěrku a kamínků.',
-  src: 'Skripta s. 14 a 16'
+  src: 'Skripta s. 14 a 16',
+  note: 'K dezinfekci peroxid — nehrozí po něm alergie (v poznámce „bílé balení lepší“), vedle něj Detol. Sešití zdravotník nedělá, k sblížení okrajů může použít stripy.'
 },
 {
   id: 'ran04', c: 'rany',
@@ -289,7 +290,8 @@ window.QB.push(
     'Popálení vlasové části hlavy — chlazení'
   ], a: [0],
   why: 'Skalpace patří spolu s amputací mezi ztrátová poranění — oddělenou část těla vždy uchováme a odešleme se zraněným.',
-  src: 'Skripta s. 14'
+  src: 'Skripta s. 14',
+  note: 'Z hlavy je krvácení ze všech ran nejsilnější — u skalpace to hodně krvácí, proto navíc chladit.'
 },
 {
   id: 'ran07', c: 'rany', m: true,
@@ -331,7 +333,8 @@ window.QB.push(
     'Klíště vytáhnout kolmo jedním rychlým tahem bez otáčení'
   ], a: [0, 1, 2, 3],
   why: 'Natírání olejem nebo krémem klíště dusí a zvyšuje riziko, že vyvrhne obsah do rány. Záznam a následné sledování jsou důležité — po akci se rodičům oznamuje možný kontakt dítěte s infekcí, klíště se uvádí výslovně.',
-  src: 'Skripta s. 14 a 5 · ČČK Praha 1, s. 10'
+  src: 'Skripta s. 14 a 5 · ČČK Praha 1, s. 10',
+  note: 'Klíště se odstraňuje „na sucho“ — předem se na ně nic nedává, dezinfikuje se až místo po vytažení.'
 },
 {
   id: 'ran10', c: 'rany', m: true,
@@ -370,7 +373,8 @@ window.QB.push(
     'Vypláchnutí rány peroxidem'
   ], a: [0, 1, 2, 3],
   why: 'Pořadí je závazné: stlačení → tlakový obvaz → teprve pak zaškrcení. Výjimkou je úrazová amputace, kde se zaškrcuje rovnou.',
-  src: 'Skripta s. 15–16'
+  src: 'Skripta s. 15–16',
+  note: 'U cizího člověka se při stlačení rány vždy chraň (rukavice). Tamponáda znamená nacpat kus látky přímo do rány. Škrtidlo je až záchrana života a patří nad kloub — improvizované se dotahuje tyčkou.'
 },
 {
   id: 'ran13', c: 'rany',
@@ -409,6 +413,7 @@ window.QB.push(
   ], a: [0, 1, 2, 3],
   why: 'Záklon hlavy je vždy chyba — dítě krev polyká, může na ni zvracet a ztráta krve se nedá odhadnout. Skripta řadí epistaxi mezi vlásečnicové krvácení a doplňují protišoková opatření.',
   src: 'Skripta s. 15',
+  note: 'Krvácí-li nos déle než 30 minut, patří dítě do nemocnice.',
   alt: {
     t: 'Novější postup ČČK (2017)',
     x: 'ČČK zásadně zakazuje ucpávat nos gázou: „Zásadně se nepokoušíme zastavit krvácení z nosu ucpáním nosu gázou nebo podobným materiálem.“ Doporučuje pevně stisknout NOSNÍ KŘÍDLA mezi prsty alespoň 5 minut a přiložit studený obklad na TÝLNÍ krajinu (ne na nos a čelo). Postižený sedí v mírném předklonu, dýchá ústy, nekašle, krev nepolyká, ale vyplivuje. Nezastaví-li se krvácení ani po postupném uvolnění tlaku, přikládá se odsávací prakový obvaz na nos a postižený se dopraví na ORL.'

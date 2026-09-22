@@ -670,6 +670,32 @@ window.QB.push(
   why: 'Léky na předpis v táborové lékárničce být nesmějí. Ruční poznámky z kurzu doplňují minimální rozsah z přílohy č. 4.',
   src: 'Ruční poznámky ve skriptech s. 6',
   note: 'Dále: náplasti se zvířátky, materiál na popáleniny a rychloobvazy kvalitní.'
+},
+{
+  id: 'dop15', c: 'rany',
+  q: 'Dítě si při pádu rozedřelo koleno a v ráně má zažraný písek a drobné kamínky. Jak ránu ošetříte?',
+  o: [
+    'Vymýt vodou a nečistoty vydrhnout měkkým kartáčkem, pak dezinfekce a sterilní krytí',
+    'Nečistoty v ráně nechat být a ránu jen sterilně překrýt',
+    'Ránu vydezinfikovat a zasypat práškem, aby se vysušila',
+    'Nečistoty vypíchat jehlou z lékárničky'
+  ], a: [0],
+  why: 'Znečištěné rány jsou nejčastěji odřeniny a je nutné je důkladně vyčistit od štěrku a kamínků — jinak se nečistoty zahojí v ráně a hrozí infekce. Do rány se pak nedávají žádné masti ani zásypy.',
+  src: 'Skripta s. 14 · ruční poznámka ve skriptech s. 14',
+  note: 'Na drhnutí se hodí měkký zubní kartáček (Curaprox) a voda, teprve pak dezinfekce.'
+},
+{
+  id: 'dop16', c: 'rany',
+  q: 'Proč se škrtidlo přikládá na paži nebo na stehno, a ne na předloktí či bérec?',
+  o: [
+    'Na předloktí a bérci jsou dvě kosti a tepna vede mezi nimi — škrtidlo ji nestlačí',
+    'Na předloktí a bérci je tenčí kůže a hrozí její poškození',
+    'Na paži a stehně je tepna blíž k povrchu',
+    'Na předloktí a bérci by škrtidlo způsobilo zlomeninu'
+  ], a: [0],
+  why: 'Skripta uvádějí zaškrcení nad ránou, nad kloubem, je-li rána níže. Na paži i na stehně je jediná kost, proti které jde tepnu spolehlivě stlačit. Zaškrcuje se až jako poslední možnost, když krvácení nezastaví stlačení ani tlakový obvaz — výjimkou je amputace.',
+  src: 'Skripta s. 15 · ruční poznámka ve skriptech s. 15',
+  note: 'Z kurzu: škrtidlo = záchrana života, nad loket nebo nad koleno. Improvizovaný turniket se dotahuje tyčkou.'
 }
 
 );
