@@ -20,13 +20,13 @@ window.QREV = {
     ran08: {
       alt: {
         t: 'Doplnění ze skript First Responder',
-        x: 'Skripta First Responder Česká Lípa u uštknutí zmijí zdůrazňují: končetinu neškrtit, ránu nenařezávat, nevypalovat a nevysávat; postiženého uklidnit, zabránit pohybu, protišoková poloha, dezinfekce, sterilní krytí, znehybnění a transport do nemocnice. Lehkou kompresi elastickým obvazem, kterou uvádějí Danina skripta, nezmiňují — nesmí se ale zaměnit se škrcením.'
+        x: 'Skripta First Responder Česká Lípa u uštknutí zmijí zdůrazňují: končetinu neškrtit, ránu nenařezávat, nevypalovat a nevysávat; postiženého uklidnit, zabránit pohybu, protišoková poloha, dezinfekce, sterilní krytí, znehybnění a transport do nemocnice. Lehkou kompresi elastickým obvazem, kterou uvádějí skripta kurzu, nezmiňují — nesmí se ale zaměnit se škrcením.'
       }
     },
     ran09: {
       alt: {
         t: 'Jinak ve skriptech First Responder',
-        x: 'Skripta First Responder Česká Lípa doporučují klíště před vytažením usmrtit jodovou tinkturou, poté ho vykývat pinzetou a místo znovu dezinfikovat jodovou tinkturou. Ruční poznámka z kurzu naopak radí jodové dezinfekce nekupovat a Danina skripta klíště ničím nenatírají. U zkoušky platí verze ze skript.'
+        x: 'Skripta First Responder Česká Lípa doporučují klíště před vytažením usmrtit jodovou tinkturou, poté ho vykývat pinzetou a místo znovu dezinfikovat jodovou tinkturou. Ruční poznámka z kurzu naopak radí jodové dezinfekce nekupovat a skripta kurzu klíště ničím nenatírají. U zkoušky platí verze ze skript.'
       }
     },
     vod05: {

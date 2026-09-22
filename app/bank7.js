@@ -531,7 +531,7 @@ window.QB.push(
   src: 'First Responder Česká Lípa, kap. 29 · skripta s. 36',
   alt: {
     t: 'Výška zvednutí nohou se ve zdrojích liší',
-    x: 'Skripta First Responder uvádějí u protišokové polohy zvednutí asi o 50 cm, příručka ČČK o 20–30 cm. Danina skripta výšku neuvádějí.'
+    x: 'Skripta First Responder uvádějí u protišokové polohy zvednutí asi o 50 cm, příručka ČČK o 20–30 cm. Skripta kurzu výšku neuvádějí.'
   }
 },
 {
@@ -543,7 +543,7 @@ window.QB.push(
     'Poloha na břiše při poranění obličeje',
     'Poloha s nohama nahoře při šoku'
   ], a: [0],
-  why: 'Vsedě orgány břicha netlačí na bránici a hrudník je volný, takže se lépe dýchá. Danina skripta ji uvádějí jako polosed u astmatu, infarktu a hemoptýzy.',
+  why: 'Vsedě orgány břicha netlačí na bránici a hrudník je volný, takže se lépe dýchá. Skripta kurzu ji uvádějí jako polosed u astmatu, infarktu a hemoptýzy.',
   src: 'First Responder Česká Lípa, kap. 29 · skripta s. 16, 22, 23'
 },
 {
@@ -555,7 +555,7 @@ window.QB.push(
     'Na břiše',
     'Vsedě s hlavou v předklonu'
   ], a: [0],
-  why: 'Zvýšená hlava snižuje nitrolební tlak. Protišoková poloha je u poranění hlavy nevhodná — uvádějí to i Danina skripta. Vždy myslet na možné poranění páteře.',
+  why: 'Zvýšená hlava snižuje nitrolební tlak. Protišoková poloha je u poranění hlavy nevhodná — uvádějí to i skripta kurzu. Vždy myslet na možné poranění páteře.',
   src: 'First Responder Česká Lípa, kap. 29 · skripta s. 15'
 },
 {

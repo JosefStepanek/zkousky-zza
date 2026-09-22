@@ -659,7 +659,7 @@ window.QB.push(
 },
 {
   id: 'dop14', c: 'lekarna', m: true,
-  q: 'Co si Dana ke vybavení lékárničky poznamenala z kurzu? (více odpovědí)',
+  q: 'Co ruční poznámky z kurzu doplňují k vybavení lékárničky? (více odpovědí)',
   o: [
     'Doplnit dva různé léky na teplotu, lék na kašel a na průjem',
     'Nekupovat jodové dezinfekce',

@@ -1,6 +1,6 @@
 /* Kontrola banky otázek: node tools/check.js
    Ověří klíče odpovědí, typy otázek, obrázky, podíl chybných možností,
-   pokrytí stran i témat Daniných skript. */
+   pokrytí stran i témat skript kurzu. */
 const path = require('path');
 global.window = {};
 const dir = path.join(__dirname, '..', 'app');

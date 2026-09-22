@@ -57,7 +57,7 @@ window.QB.push(
     'Laická pomoc školeného zachránce',
     'Vyproštění osoby z havarovaného vozidla'
   ], a: [0, 1, 2],
-  why: 'Základní první pomoc je laická (neškolený i školený zachránce), poskytovaná na místě události s minimálním vybavením (lékárnička) — a bývá často rozhodující. Jako zdravotník ZZA poskytuje Dana právě tuto základní první pomoc.',
+  why: 'Základní první pomoc je laická (neškolený i školený zachránce), poskytovaná na místě události s minimálním vybavením (lékárnička) — a bývá často rozhodující. Zdravotník ZZA poskytuje právě tuto základní první pomoc.',
   src: 'Skripta s. 11'
 },
 {
@@ -494,7 +494,7 @@ window.QB.push(
   src: 'ČČK příručka, s. 41 — skripta tyto zásady neuvádějí',
   alt: {
     t: 'Doplněk nad rámec skript',
-    x: 'Danina skripta uvádějí u zaškrcení jen „nad ránou (nad kloubem)“ a „jako poslední možnost“. Zásady o šířce 5 cm, zákazu bérce a předloktí a hlavně o zaznamenání času přiložení ve skriptech nejsou — u zkoušky to nebude chyba je uvést, ale nesmí to vytlačit odpověď ze skript.'
+    x: 'Skripta kurzu uvádějí u zaškrcení jen „nad ránou (nad kloubem)“ a „jako poslední možnost“. Zásady o šířce 5 cm, zákazu bérce a předloktí a hlavně o zaznamenání času přiložení ve skriptech nejsou — u zkoušky to nebude chyba je uvést, ale nesmí to vytlačit odpověď ze skript.'
   }
 },
 {

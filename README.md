@@ -51,7 +51,7 @@ tools/
 
 ## Úpravy
 
-1. Otázky jsou v `app/bank*.js`. Formát je popsaný v hlavičce `bank5.js`. Okruh „Stavba lidského těla“ (`bank7.js`) vychází z osnovy kurzu, ne z Daniných skript.
+1. Otázky jsou v `app/bank*.js`. Formát je popsaný v hlavičce `bank5.js`. Okruh „Stavba lidského těla“ (`bank7.js`) vychází z osnovy kurzu, ne ze skript kurzu.
 2. Spusť kontrolu: `node tools/check.js` — ověří klíče odpovědí, typy otázek, obrázky, počet chybných možností a pokrytí všech témat skript.
 3. Zvyš číslo verze `?v=` v `index.html` a `VERSION` v `sw.js`, aby se nová verze načetla i v nainstalované aplikaci.
 4. Nahraj obsah složky `app/` na hosting.

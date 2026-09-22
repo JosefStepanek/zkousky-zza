@@ -1,4 +1,4 @@
-/* Mapa témat Daniných skript (Zdravotníci s.r.o.) po nadpisech.
+/* Mapa témat skript kurzu (Zdravotníci s.r.o.) po nadpisech.
    p = strana, h = téma, k = regulární výraz, který musí najít aspoň jedna otázka nebo kartička.
    Kontroluje to tools/check.js — nenajde-li téma, nahlásí ho jako nepokryté. */
 window.COVERAGE = [

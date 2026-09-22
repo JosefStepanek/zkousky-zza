@@ -745,7 +745,7 @@ window.QB.push(
   tags: ['cislo'],
   alt: {
     t: 'Upřesnění v příručce ČČK',
-    x: 'ČČK rozlišuje podle věku: u novorozence (0–1 měsíc) minimálně 120 stlačení za minutu, u ostatních věkových kategorií minimálně 100 za minutu. Danina skripta rozdíl nedělají. U zkoušky platí jejich 100–120.'
+    x: 'ČČK rozlišuje podle věku: u novorozence (0–1 měsíc) minimálně 120 stlačení za minutu, u ostatních věkových kategorií minimálně 100 za minutu. Skripta kurzu rozdíl nedělají. U zkoušky platí jejich 100–120.'
   }
 },
 {
