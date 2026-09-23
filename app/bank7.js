@@ -6,14 +6,19 @@
 window.QB = window.QB || [];
 window.QB.push(
 
-/* ─────────────── Stavba lidského těla (osnova kurzu, příloha 2) ─────────────── */
+/* ─────────────── Stavba lidského těla (osnova kurzu, příloha 2) ───────────────
+   Primárním zdrojem jsou podklady kurzu „Anatomie“ (další otázky v bank8.js). */
 {
   id: 'ana01', c: 'anatomie', t: 'match',
   q: 'Přiřaď počet obratlů k úsekům páteře.',
-  pairs: [['krční obratle', '7'], ['hrudní obratle', '12'], ['bederní obratle', '5'], ['kostrční obratle', '4–5']],
+  pairs: [['krční obratle', '7'], ['hrudní obratle', '12'], ['bederní obratle', '5']],
   extra: ['3', '9'],
-  why: 'Páteř dále tvoří 5 křížových obratlů. Na hrudní obratle se kloubně připojuje 12 párů žeber.',
-  src: 'First Responder Česká Lípa, kap. 1',
+  why: 'Na hrudní obratle se kloubně připojuje 12 párů žeber. Pod bederními obratli následuje kost křížová a kostrč.',
+  src: 'Anatomie (podklady kurzu), s. 2 · First Responder Česká Lípa, kap. 1',
+  alt: {
+    t: 'Podklady kurzu × učebnice anatomie',
+    x: 'Podklady kurzu uvádějí jako čtvrtý úsek páteře „4–5 křížových obratlů“. Anatomicky je křížových obratlů 5 (srůstají v kost křížovou) a pod nimi jsou 4–5 kostrčních obratlů. Kdyby se test ptal na křížové obratle a nabízel 4–5, jde o údaj z podkladů kurzu.'
+  },
   tags: ['cislo']
 },
 {
@@ -21,21 +26,21 @@ window.QB.push(
   q: 'Kolik laloků má pravá a levá plíce?',
   o: ['Pravá 3, levá 2', 'Pravá 2, levá 3', 'Obě po 3', 'Obě po 2'], a: [0],
   why: 'Levá plíce je menší, protože srdce leží zhruba ze dvou třetin vlevo od střední čáry. K výměně plynů dochází v plicních sklípcích, hlavními dýchacími svaly jsou bránice a mezižeberní svaly.',
-  src: 'First Responder Česká Lípa, kap. 1'
+  src: 'Anatomie (podklady kurzu), s. 8 · First Responder Česká Lípa, kap. 1'
 },
 {
   id: 'ana03', c: 'anatomie',
   q: 'Ve kterém oddílu srdce začíná malý (plicní) krevní oběh?',
-  o: ['V pravé komoře', 'V levé komoře', 'V pravé předsíni', 'V levé předsíni'], a: [0],
-  why: 'Z pravé komory jde odkysličená krev plicnicí do plic, okysličená se vrací plicními žilami do levé předsíně. Velký oběh začíná v levé komoře aortou a krev se vrací horní a dolní dutou žílou do pravé předsíně.',
-  src: 'First Responder Česká Lípa, kap. 1'
+  o: ['V pravé komoře', 'V levé komoře', 'V pravé síni', 'V levé síni'], a: [0],
+  why: 'Z pravé komory jde tmavá odkysličená krev plicními tepnami do plic, jasně červená okysličená se vrací plicními žilami do levé síně. Velký oběh začíná v levé komoře aortou a krev se vrací horní a dolní dutou žílou do pravé síně.',
+  src: 'Anatomie (podklady kurzu), s. 4 · First Responder Česká Lípa, kap. 1'
 },
 {
   id: 'ana04', c: 'anatomie',
   q: 'Kolik krve má přibližně dospělý člověk?',
   o: ['Muž asi 5–6 litrů, žena asi 4,5 litru', 'Asi 2–3 litry', 'Asi 8–10 litrů', 'Asi 1,5 litru'], a: [0],
   why: 'Pro představu o krevních ztrátách: zlomenina pánve může znamenat ztrátu až 5 litrů, stehenní kosti 3 litry — tedy velkou část celkového objemu. Hypovolemický šok se rozvíjí nad ztrátou 20–30 %.',
-  src: 'First Responder Česká Lípa, kap. 1 · skripta s. 20 a 26',
+  src: 'Anatomie (podklady kurzu), s. 5 · First Responder Česká Lípa, kap. 1 · skripta s. 20 a 26',
   tags: ['cislo']
 },
 {
@@ -49,28 +54,32 @@ window.QB.push(
   ],
   extra: ['tvorba žluči'],
   why: 'Červené krvinky se tvoří v červené kostní dřeni a žijí asi 120 dní. Krevní destičky žijí jen několik dní.',
-  src: 'First Responder Česká Lípa, kap. 1'
+  src: 'Anatomie (podklady kurzu), s. 6 · First Responder Česká Lípa, kap. 1'
 },
 {
   id: 'ana06', c: 'anatomie', m: true,
   q: 'Které kosti tvoří předloktí?',
   o: ['Kost vřetenní', 'Kost loketní', 'Kost pažní', 'Kost holenní', 'Kost lýtková', 'Kost klíční'], a: [0, 1],
   why: 'Paže má jedinou kost pažní, předloktí kost vřetenní a loketní. Na dolní končetině je stehenní kost a v bérci kost holenní a lýtková. Na tepně vřetenní (na zápěstí na straně palce) se měří pulz.',
-  src: 'First Responder Česká Lípa, kap. 1 a 3'
+  src: 'Anatomie (podklady kurzu), s. 2 · First Responder Česká Lípa, kap. 1 a 3'
 },
 {
   id: 'ana07', c: 'anatomie',
   q: 'Kde vzniká podnět ke srdečnímu stahu?',
-  o: ['V sinusovém uzlu', 'Ve věnčitých tepnách', 'V Purkyňových vláknech', 'V prodloužené míše'], a: [0],
-  why: 'Sinusový uzel leží při ústí horní duté žíly. Vzruch se šíří síněmi do síňokomorového uzlu, Hisovým svazkem a Tawarovými raménky do Purkyňových vláken v komorách. Rytmus jiný než sinusový se nazývá arytmie.',
-  src: 'First Responder Česká Lípa, kap. 1 a 21'
+  o: ['V sinusovém uzlu v pravé síni', 'Ve věnčitých tepnách', 'V prodloužené míše', 'V bránici'], a: [0],
+  why: 'Srdce si vzruch tvoří samo, mozek k tomu nepotřebuje. Ze sinusového uzlu se vzruch šíří síněmi do síňokomorového uzlu a dál Hisovým svazkem a Tawarovými raménky do Purkyňových vláken v komorách. Rytmus jiný než sinusový se nazývá arytmie.',
+  src: 'Anatomie (podklady kurzu), s. 4 · First Responder Česká Lípa, kap. 1 a 21',
+  alt: {
+    t: 'Text podkladů kurzu je zkrácený',
+    x: 'Text podkladů Anatomie říká, že srdce „dostává elektrický impuls ze síňokomorového uzlu“. Obrázek na téže straně ale ukazuje oba uzly: vzruch vzniká v sinusovém uzlu a síňokomorový uzel ho převádí ze síní na komory. Kdyby test nabízel jen síňokomorový uzel, jde o znění textu podkladů.'
+  }
 },
 {
   id: 'ana08', c: 'anatomie',
   q: 'Které cévy zásobují krví samotný srdeční sval?',
   o: ['Věnčité (koronární) tepny', 'Plicní tepny', 'Horní dutá žíla', 'Krkavice'], a: [0],
   why: 'Věnčité tepny odstupují z aorty hned za aortální chlopní. Uzávěr věnčité tepny způsobí nedokrevnost a odumření části srdečního svalu — infarkt myokardu.',
-  src: 'First Responder Česká Lípa, kap. 1 · skripta s. 22'
+  src: 'Anatomie (podklady kurzu), s. 4 · First Responder Česká Lípa, kap. 1 · skripta s. 22'
 },
 {
   id: 'ana09', c: 'anatomie',
@@ -84,14 +93,14 @@ window.QB.push(
   q: 'Které hormony vylučuje slinivka břišní do krve?',
   o: ['Inzulin a glukagon — řídí hladinu cukru v krvi', 'Adrenalin a noradrenalin', 'Estrogen a progesteron', 'Parathormon'], a: [0],
   why: 'Inzulin hladinu cukru snižuje, glukagon zvyšuje — proto se diabetikovi v bezvědomí při hypoglykemii podává glukagon. Adrenalin tvoří nadledviny, parathormon příštitná tělíska.',
-  src: 'First Responder Česká Lípa, kap. 1 · skripta s. 25'
+  src: 'Anatomie (podklady kurzu), s. 7 a 12 · First Responder Česká Lípa, kap. 1 · skripta s. 25'
 },
 {
   id: 'ana11', c: 'anatomie', m: true,
   q: 'Co patří k dolním cestám dýchacím?',
   o: ['Průdušnice', 'Průdušky', 'Průdušinky a plicní sklípky', 'Dutina nosní', 'Nosohltan', 'Dutina ústní'], a: [0, 1, 2],
   why: 'Horní cesty dýchací tvoří dutina nosní (vzduch se v ní ohřívá a zvlhčuje), dutina ústní a nosohltan, kde se kříží cesta dýchací a polykací. Proto může cizí těleso z úst skončit v dýchacích cestách.',
-  src: 'First Responder Česká Lípa, kap. 1'
+  src: 'Anatomie (podklady kurzu), s. 8 · First Responder Česká Lípa, kap. 1'
 },
 {
   id: 'ana12', c: 'anatomie',
@@ -103,14 +112,14 @@ window.QB.push(
     'Je uložena v lebce; přerušení způsobí ztrátu paměti'
   ], a: [0],
   why: 'Mícha leží v páteřním kanálu a je obklopena mozkomíšním mokem. Proto je u podezření na poranění páteře nutná minimální manipulace — pohyb s nestabilní páteří může míchu poškodit.',
-  src: 'First Responder Česká Lípa, kap. 1 · skripta s. 33'
+  src: 'Anatomie (podklady kurzu), s. 10 · First Responder Česká Lípa, kap. 1 · skripta s. 33'
 },
 {
   id: 'ana13', c: 'anatomie', t: 'order',
   q: 'Seřaď mozkové plény od lebky směrem k mozku.',
   items: ['Tvrdá plena', 'Pavučnice', 'Měkká plena'],
-  why: 'Podle toho se jmenují nitrolební krvácení: epidurální (nad tvrdou plenou), subdurální (pod tvrdou plenou) a subarachnoideální (pod pavučnicí).',
-  src: 'First Responder Česká Lípa, kap. 1 · skripta s. 32'
+  why: 'Podklady kurzu uvádějí zjednodušeně tvrdou a měkkou plenu s mozkomíšním mokem mezi nimi — mok ve skutečnosti proudí pod pavučnicí. Podle plen se jmenují nitrolební krvácení: epidurální (nad tvrdou plenou), subdurální (pod tvrdou plenou) a subarachnoideální (pod pavučnicí).',
+  src: 'Anatomie (podklady kurzu), s. 10 · First Responder Česká Lípa, kap. 1 · skripta s. 32'
 },
 {
   id: 'ana14', c: 'anatomie', t: 'match',
@@ -118,12 +127,12 @@ window.QB.push(
   pairs: [
     ['nadledviny', 'adrenalin — reakce na akutní stres'],
     ['slinivka břišní', 'inzulin a glukagon'],
-    ['štítná žláza', 'thyreoglobulin — řídí metabolismus a růst'],
+    ['štítná žláza', 'kalcitonin — ukládání vápníku v kostech'],
     ['hypofýza', 'ovlivňuje tvorbu dalších hormonů']
   ],
   extra: ['žluč'],
   why: 'Hormony jdou přímo do krve a krví se dostávají k cílovým orgánům. Adrenalin je i účinná látka Epipenu.',
-  src: 'First Responder Česká Lípa, kap. 1'
+  src: 'Anatomie (podklady kurzu), s. 12 · First Responder Česká Lípa, kap. 1'
 },
 
 /* ─────────────── Vyšetření a normální hodnoty ─────────────── */

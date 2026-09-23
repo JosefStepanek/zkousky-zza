@@ -31,7 +31,7 @@ const CATS = [
   { k: 'povinnosti', n: 'Zdravotník a dokumentace',     p: 's. 5–6' },
   { k: 'lekarna',    n: 'Lékárnička a léky',            p: 's. 6, 10' },
   { k: 'hygiena',    n: 'Hygiena a epidemiologie',      p: 's. 7–9' },
-  { k: 'anatomie',   n: 'Stavba lidského těla',         p: 'osnova kurzu' },
+  { k: 'anatomie',   n: 'Stavba lidského těla',         p: 'podklady Anatomie' },
   { k: 'zaklady',    n: 'Základy první pomoci',         p: 's. 11–13' },
   { k: 'rany',       n: 'Rány, krvácení, obvazy',       p: 's. 13–18' },
   { k: 'kosti',      n: 'Úrazy, břicho, hlava, páteř',  p: 's. 18–22, 27–28, 32–33' },
@@ -540,11 +540,11 @@ function viewHome() {
         </button>`;
       }).join('')}
     </div>
-    <p class="cover-note">Klepnutím na stranu procvičíš jen její otázky. Každé z ${COVERAGE.length} témat skript Zdravotníci s.r.o. má v bance aspoň jednu otázku. Okruh Táborové nemoci a některé doplňky vycházejí ze skript ČČK Praha 1 a z příručky ČČK — u každé otázky je zdroj.</p>
+    <p class="cover-note">Klepnutím na stranu procvičíš jen její otázky. Každé z ${COVERAGE.length} témat skript Zdravotníci s.r.o. má v bance aspoň jednu otázku. Okruh Stavba lidského těla vychází z podkladů kurzu Anatomie, Táborové nemoci a některé doplňky ze skript ČČK Praha 1 a z příručky ČČK — u každé otázky je zdroj.</p>
   </section>
 
   <footer class="foot">
-    <span>${total} otázek · ${RC.length} kartiček · zdroje: skripta Zdravotníci s.r.o., ČČK Praha 1, Příručka zdravotníka ČČK · postup se ukládá v tomto zařízení</span>
+    <span>${total} otázek · ${RC.length} kartiček · zdroje: skripta Zdravotníci s.r.o. a podklady kurzu, ČČK Praha 1, Příručka zdravotníka ČČK · postup se ukládá v tomto zařízení</span>
     <button data-act="reset">${V.confirmReset ? 'Opravdu smazat veškerý postup?' : 'Smazat postup'}</button>
   </footer>
 </div>`;

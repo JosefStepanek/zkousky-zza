@@ -303,5 +303,104 @@ photo('fotoEkzem', 'ekzem.jpg', 'Předloktí dítěte se zarudlou, suchou a roz�
 photo('fotoNehty', 'plisen-nehtu.jpg', 'Zažloutlý, ztluštělý a rozpadající se nehet palce na noze', 'Foto: James Heilman, MD, Wikimedia Commons — CC BY-SA 3.0');
 photo('fotoRautek', 'rautek.png', 'Zachránce stojí za postiženým, provléká paže pod jeho rameny a drží ho za předloktí', 'Ilustrace: Baedr-9439, Wikimedia Commons — CC0');
 
+/* ══════ Stavba lidského těla — vlastní schémata podle námětů v podkladech kurzu Anatomie ══════
+   Pohled zepředu: pravá strana těla je na obrázku vlevo. */
+const P = (d, cls = 'fx-o') => `<path class="${cls}" d="${d}"/>`;
+const E = (cx, cy, rx, ry, cls = 'fx-o', extra = '') => `<ellipse class="${cls}" cx="${cx}" cy="${cy}" rx="${rx}" ry="${ry}"${extra}/>`;
+const mirror = (d, w) => d.replace(/(-?\d+(?:\.\d+)?),(-?\d+(?:\.\d+)?)/g, (_, x, y) => `${f1(w - x)},${y}`);
+
+/* ── Srdce ── */
+const srdce = () =>
+  R(46, 6, 20, 44, 6, 'fx-ven') +
+  P('M100,50 V26 Q100,8 120,8 Q140,8 140,26 V36 H128 V27 Q128,20 120,20 Q112,20 112,27 V50 Z', 'fx-art') +
+  R(38, 44, 60, 58, 14, 'fx-ven') + R(104, 44, 60, 58, 14, 'fx-art') +
+  P('M38,108 H98 V190 Q62,164 45,138 Q38,126 38,108 Z', 'fx-ven') +
+  P('M104,108 H164 Q168,140 150,164 Q132,186 104,196 Z', 'fx-art');
+add('srdceOddily', 'Schéma srdce zepředu se čtyřmi oddíly A až D: A vpravo nahoře na těle (na obrázku vlevo nahoře), B pod ním, C na obrázku vpravo nahoře, D pod ním',
+  srdce() + M(68, 74, 'A') + M(70, 142, 'B') + M(134, 74, 'C') + M(134, 144, 'D'),
+  '0 0 200 204');
+add('srdcePrevod', 'Schéma převodního systému srdce: A drobný uzel nahoře v pravé síni, B uzel na rozhraní síní a komor, C svazek v přepážce mezi komorami, D vlákna ve stěně levé komory',
+  srdce() +
+  P('M62,58 Q80,80 101,104 V150 M101,150 Q92,176 70,168 Q52,156 46,128 M101,150 Q112,182 136,172 Q156,158 160,124', 'fx-strap') +
+  C(62, 58, 5, 'fx-fist') + C(101, 104, 5, 'fx-fist') +
+  M(80, 56, 'A') + M(120, 104, 'B') + M(101, 134, 'C') + M(166, 146, 'D'),
+  '0 0 200 204');
+
+/* ── Hrudník ── */
+const zebro = i => {
+  const y = 30 + i * 13, out = f1(46 - i * 2.4);
+  if (i < 7) return L(`104,${y} 86,${y + 2}`, 'fx-cart') + P(`M86,${y + 2} Q${out},${y + 2} ${f1(out - 18)},${y + 26}`, 'fx-rib');
+  if (i < 10) { const x = [82, 72, 62][i - 7], yy = [134, 146, 158][i - 7]; return P(`M${x},${yy} Q${out},${yy - 2} ${f1(out - 16)},${yy + 18}`, 'fx-rib'); }
+  const yy = [170, 180][i - 10]; return P(`M${f1(out + 6)},${yy} Q${f1(out - 6)},${yy + 2} ${f1(out - 12)},${yy + 14}`, 'fx-rib');
+};
+const hrudnikPul = () => Array.from({ length: 12 }, (_, i) => zebro(i)).join('') + L('104,130 82,134 72,146 62,158', 'fx-cart');
+add('hrudnikZebra', 'Schéma hrudníku zepředu: A horní žebra připojená chrupavkou přímo k hrudní kosti, B tři žebra napojená chrupavkou na žebro nad sebou, C dvě krátká žebra volně zakončená, D hrudní kost',
+  hrudnikPul() + mirror(hrudnikPul(), 220) + R(102, 18, 16, 114, 6, 'fx-bone') + P('M104,132 H116 L110,146 Z', 'fx-bone') +
+  M(52, 62, 'A') + M(44, 148, 'B') + M(20, 196, 'C') + M(110, 74, 'D'),
+  '0 0 220 216');
+
+/* ── Páteř z boku ── */
+const pater = () => {
+  let out = '', y = 8;
+  const seg = (n, h, w, fx) => { for (let i = 0; i < n; i++) { const x = 90 + fx(i / (n - 1 || 1)); out += R(f1(x - w / 2), y, w, h - 3, 3, 'fx-bone'); y += h; } };
+  seg(7, 11, 22, t => 7 * Math.sin(Math.PI * t));
+  seg(12, 12, 26, t => -12 * Math.sin(Math.PI * t));
+  seg(5, 15, 32, t => 9 * Math.sin(Math.PI * t));
+  out += P(`M76,${y} H106 Q104,${y + 34} 86,${y + 52} Q76,${y + 30} 76,${y} Z`, 'fx-bone');
+  out += P(`M84,${y + 54} Q82,${y + 64} 78,${y + 70}`, 'fx-rib');
+  return out;
+};
+add('pater', 'Schéma páteře z boku, hlava je nahoře: A horní úsek se sedmi drobnými obratli, B dlouhý úsek pod ním, C pět mohutných obratlů, D srostlá kost na spodu',
+  pater() + M(50, 45, 'A') + M(50, 150, 'B') + M(50, 247, 'C') + M(50, 318, 'D'),
+  '0 0 150 352');
+
+/* ── Dýchací soustava ── */
+const plice = 'M92,62 Q62,42 42,92 Q26,150 32,198 Q62,206 96,192 Q90,130 92,62 Z';
+add('dychaci', 'Schéma dýchací soustavy zepředu: A trubice pod hrtanem, B její rozvětvení do plic, C plíce na obrázku vlevo rozdělená na tři laloky, D plíce na obrázku vpravo se dvěma laloky',
+  P(plice) + P('M128,62 Q158,42 178,92 Q194,150 188,198 Q160,206 138,198 Q142,172 126,162 Q132,120 128,62 Z') +
+  L('92,94 38,176', 'fx-g') + L('34,132 66,134', 'fx-g') + L('128,90 184,178', 'fx-g') +
+  R(96, 4, 28, 22, 8) + R(102, 26, 16, 56, 4) + [34, 44, 54, 64, 74].map(y => L(`104,${y} 116,${y}`, 'fx-g')).join('') +
+  L('110,82 80,108 62,130', 'fx-ln') + L('80,108 76,150', 'fx-ln') + L('110,82 140,108 158,132', 'fx-ln') + L('140,108 146,152', 'fx-ln') +
+  M(110, 50, 'A') + M(128, 98, 'B') + M(58, 164, 'C') + M(164, 148, 'D'),
+  '0 0 220 212');
+
+/* ── Močová soustava ── */
+const ledvina = 'M60,44 Q40,40 38,70 Q38,100 60,102 Q74,100 72,84 Q66,74 72,62 Q74,46 60,44 Z';
+add('mocova', 'Schéma vylučovací soustavy zepředu: A dva orgány tvaru fazole v horní části, B tenké trubice vedoucí dolů, C vak v dolní části, D krátká trubice vedoucí z vaku ven',
+  L('104,20 104,210', 'fx-artl') + L('96,20 96,210', 'fx-venl') +
+  P(ledvina) + P(mirror(ledvina, 200).replace(/,(\d+)/g, (_, y) => ',' + (y - 8))) +
+  P('M72,78 Q86,120 88,176', 'fx-ure') + P('M128,70 Q114,120 112,176', 'fx-ure') +
+  P('M76,186 Q76,166 100,166 Q124,166 124,186 Q124,206 100,206 Q76,206 76,186 Z') + L('100,206 100,228', 'fx-ure') +
+  M(38, 40, 'A') + M(64, 130, 'B') + M(100, 188, 'C') + M(122, 222, 'D'),
+  '0 0 200 236');
+
+/* ── Mozek z boku ── */
+add('mozekLaloky', 'Schéma mozku z boku, obličej je vlevo: A přední lalok, B horní lalok za centrální brázdou, C zadní lalok, D dolní lalok pod boční brázdou; pod zadní částí mozeček',
+  E(172, 146, 30, 15) + L('150,142 190,140', 'fx-g') + L('154,150 188,150', 'fx-g') + R(132, 128, 14, 48, 6) +
+  P('M40,110 Q28,62 78,32 Q128,8 180,32 Q224,58 214,104 Q210,128 186,132 L150,128 Q126,148 96,146 Q58,144 40,110 Z') +
+  L('124,16 104,98', 'fx-ln') + P('M64,112 Q104,96 150,100', 'fx-ln') + L('188,40 180,126', 'fx-d') +
+  M(72, 72, 'A') + M(150, 60, 'B') + M(198, 94, 'C') + M(112, 124, 'D'),
+  '0 0 240 184');
+
+/* ── Ucho ── */
+add('ucho', 'Schéma ucha v řezu: A boltec a zvukovod, B dutina za bubínkem s kůstkami, C spirála hlemýždě a polokruhovité kanálky',
+  P('M44,16 Q8,24 12,72 Q16,122 46,140 Q58,132 52,112 Q48,96 56,88 Q66,60 60,34 Q56,18 44,16 Z') + R(54, 76, 58, 16, 4) +
+  E(134, 84, 22, 26) + P('M130,108 Q140,130 156,150', 'fx-tube') + L('112,62 112,106', 'fx-b fx-thin') +
+  L('114,82 126,72 140,80 154,86', 'fx-ln') + C(126, 72, 3.5, 'fx-h') + C(140, 80, 3.5, 'fx-h') +
+  C(194, 98, 20, 'fx-o') + C(194, 98, 13, 'fx-g') + C(194, 98, 6, 'fx-g') +
+  C(186, 56, 10, 'fx-g') + C(204, 60, 10, 'fx-g') + C(196, 44, 9, 'fx-g') +
+  M(30, 78, 'A') + M(134, 60, 'B') + M(220, 124, 'C'),
+  '0 0 240 160');
+
+/* ── Trávicí soustava ── */
+add('travici', 'Schéma trávicí soustavy zepředu: A velký orgán pod bránicí na obrázku vlevo, B vakovitý orgán na obrázku vpravo nahoře, C široká trubice po obvodu břicha, D kličky uprostřed břicha',
+  L('116,0 124,64', 'fx-tube') +
+  P('M28,62 Q60,38 128,54 Q122,80 92,92 Q50,102 28,84 Z') +
+  P('M122,60 Q176,46 186,84 Q188,116 152,120 Q122,118 128,100 Q142,92 132,76 Z') +
+  P('M46,210 V128 H180 V206 Q180,226 150,230 L122,238', 'fx-tube') + L('46,210 40,226', 'fx-ure') +
+  P('M66,148 Q90,140 110,150 Q140,160 158,150 M64,166 Q92,158 112,170 Q140,180 160,168 M66,186 Q92,178 112,190 Q138,200 158,190 M70,204 Q96,196 116,206 Q136,214 152,206', 'fx-ln') +
+  M(62, 72, 'A') + M(160, 90, 'B') + M(46, 170, 'C') + M(112, 178, 'D'),
+  '0 0 220 244');
+
 window.FIG = FIG;
 })();

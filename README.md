@@ -18,16 +18,17 @@ Světlý nebo tmavý motiv se přepíná tlačítkem v hlavičce (Auto → Svět
 
 | | |
 |---|---|
-| Otázky | 443 (výběr jedné i více odpovědí, pravda/mýtus, seřazení, přiřazení, obrázkové) |
-| Kartičky „Vybav si“ | 46 |
+| Otázky | 516 (výběr jedné i více odpovědí, pravda/mýtus, seřazení, přiřazení, obrázkové) |
+| Kartičky „Vybav si“ | 55 |
 | Témata skript | 217 nadpisů ze s. 3–36, každé má aspoň jednu otázku |
 
 Zdroje otázek:
 
 - výuková skripta kurzu *Zdravotník zotavovacích akcí* (Zdravotníci s.r.o.) včetně ručních poznámek z kurzu — primární zdroj, podle nich se zkouší,
+- podklady kurzu zaslané e-mailem (září 2026): *Anatomie* (12 stran — primární zdroj pro okruh Stavba lidského těla), vzor *Zdravotnického deníku* s pokyny a povinnostmi zdravotníka a vzorové záznamy ošetřovny (karta pacienta, záznamy úrazu hlavy, bolesti břicha, rány, úrazu končetiny, alergie, bodnutí a klíšťat),
 - *Zdravotník zotavovacích akcí — výukové materiály* (Oblastní spolek ČČK Praha 1),
 - *Příručka zdravotníka zotavovacích akcí* (Český červený kříž, 2017),
-- *Zdravotník zotavovacích akcí — výuková skripta* (First Responder – Záchranáři Česká Lípa, příloha k dokumentu MŠMT) — anatomie, vyšetření, infekce, psychologie; legislativní část vychází z neplatné vyhlášky 148/2004 Sb. a nepřebírá se,
+- *Zdravotník zotavovacích akcí — výuková skripta* (First Responder – Záchranáři Česká Lípa, příloha k dokumentu MŠMT) — doplnění anatomie, vyšetření, infekce, psychologie; legislativní část vychází z neplatné vyhlášky 148/2004 Sb. a nepřebírá se,
 - zákon č. 258/2000 Sb. a vyhláška č. 106/2001 Sb.
 
 Otázky a vysvětlení jsou vlastní text, zdrojové PDF v repozitáři nejsou. U každé otázky je uvedena strana zdroje.
@@ -38,7 +39,7 @@ Otázky a vysvětlení jsou vlastní text, zdrojové PDF v repozitáři nejsou. 
 app/
   index.html        stránka a styly
   app.js            logika aplikace
-  bank1–7.js        banka otázek
+  bank1–8.js        banka otázek (bank8: podklady kurzu — anatomie a deník)
   revize.js         doplněné chybné možnosti a přepsané otázky
   recall.js         kartičky „Vybav si“
   coverage.js       mapa témat skript po stranách
@@ -51,14 +52,14 @@ tools/
 
 ## Úpravy
 
-1. Otázky jsou v `app/bank*.js`. Formát je popsaný v hlavičce `bank5.js`. Okruh „Stavba lidského těla“ (`bank7.js`) vychází z osnovy kurzu, ne ze skript kurzu.
+1. Otázky jsou v `app/bank*.js`. Formát je popsaný v hlavičce `bank5.js`. Okruh „Stavba lidského těla“ (`bank7.js`, `bank8.js`) vychází z podkladů kurzu *Anatomie*, doplněných skripty First Responder. Kde podklady nesedí s učebnicovou anatomií (páteř, vznik srdečního vzruchu), je rozdíl ve „Sporných místech“.
 2. Spusť kontrolu: `node tools/check.js` — ověří klíče odpovědí, typy otázek, obrázky, počet chybných možností a pokrytí všech témat skript.
 3. Zvyš číslo verze `?v=` v `index.html` a `VERSION` v `sw.js`, aby se nová verze načetla i v nainstalované aplikaci.
 4. Nahraj obsah složky `app/` na hosting.
 
 ## Obrázky
 
-Schémata (polohy, místa stlačení, pravidlo devíti, tonutí, dušení, dlahy…) jsou vlastní SVG kresby. Fotky pocházejí z Wikimedia Commons:
+Schémata (polohy, místa stlačení, pravidlo devíti, tonutí, dušení, dlahy, srdce, hrudník, páteř, plíce, ledviny, mozek, ucho, trávicí soustava…) jsou vlastní SVG kresby. Anatomická schémata vznikla podle námětů obrázků v podkladech kurzu Anatomie; ty samotné se nepřebírají, protože pocházejí z učebnic a webů bez volné licence. Fotky pocházejí z Wikimedia Commons:
 
 - `plane-nestovice.jpg` — [Varicella.jpg](https://commons.wikimedia.org/wiki/File:Varicella.jpg), volné dílo
 - `zardenky.jpg` — [Rash of rubella on back (crop).JPG](https://commons.wikimedia.org/wiki/File:Rash_of_rubella_on_back_(crop).JPG), CDC, volné dílo
