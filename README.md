@@ -6,6 +6,7 @@ Webová aplikace na přípravu ke zkoušce **Zdravotník zotavovacích akcí** (
 
 - **Zkouška nanečisto** — 40 otázek s výběrem napříč okruhy, hranice úspěchu 82 % (33 správně), rozbor chyb podle okruhů.
 - **Dnešní opakování** (20 otázek) a **Krátké opakování** (10) — opakování s rozestupy podle Leitnerových přihrádek: co se splete, vrátí se brzy, co se umí, odsune se.
+- **Ještě neviděné** — rychlé kolo po 10 otázkách jen z těch, které ještě nepadly v žádném režimu; po kole jde rovnou pokračovat dalšími.
 - **Vybav si** — kartičky s výčty, postupy a čísly k volnému vybavení.
 - **Pravda, nebo mýtus?**, **Obrázky a fotky**, **Seřaď a přiřaď**, **Opravit chyby**.
 - **Sporná místa** — kde se výuková skripta liší od příručky ČČK (2017) nebo od vyhlášky. V otázkách vždy platí odpověď ze skript, novější postup je uveden vedle.

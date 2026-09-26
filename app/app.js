@@ -21,7 +21,7 @@ const ICON = window.ICON || {};
 
 const EXAM_N = 40;
 const PASS_N = Math.ceil(EXAM_N * 0.82);          // 33
-const DAILY_N = 20, SHORT_N = 10, MYTH_N = 15, PIC_N = 10, MIX_N = 10, RECALL_N = 12;
+const DAILY_N = 20, SHORT_N = 10, MYTH_N = 15, PIC_N = 10, MIX_N = 10, RECALL_N = 12, FRESH_N = 10;
 
 const isChoice = q => q.t === 'mc' || q.t === 'tf';
 const hasPic = q => !!(q.fig || q.ofig);
@@ -500,6 +500,7 @@ function viewHome() {
       </div>
       <div class="mode-lasts">${lastInfo('daily', 'Celé')}${lastInfo('short', 'Krátké')}</div>
     </div>
+    ${modeTile('fresh', 'Ještě neviděné', newQ, false, newQ ? `Jen otázky, které ti ještě nepadly — po ${FRESH_N}, napříč okruhy.` : 'Všechny otázky už padly aspoň jednou.')}
     ${modeTile('recall', 'Vybav si', `${dueR} karet`, false, 'Výčty, postupy a čísla bez nabídky možností.')}
     ${modeTile('myths', 'Pravda, nebo mýtus?', nMyth, false, 'Rychlé chytáky — záklon při krvácení z nosu, olej na klíště a spol.')}
     ${modeTile('pictures', 'Obrázky a fotky', nPic, false, 'Polohy, místa stlačení, obvazy, tonoucí, vyrážky.')}
@@ -828,6 +829,8 @@ function viewSummary() {
   prevBadge(b, p);
   if ((V.bestRun || 0) >= 5) b.push(badge('flame', `Nejdelší série ${V.bestRun} správně`));
   streakBadge(b);
+  const freshLeft = V.key === 'fresh' ? QB.filter(q => !boxOf('q', q.id)).length : 0;
+  const freshBtn = freshLeft ? `<button class="btn${wrong.length ? '' : ' btn-primary'}" data-act="fresh">${ICON.fresh} Dalších ${Math.min(FRESH_N, freshLeft)} neviděných</button>` : '';
   return `
 <div class="result">
   <div class="eyebrow">${esc(V.title)} — shrnutí</div>
@@ -836,7 +839,7 @@ function viewSummary() {
   <p>${p} % správně. ${wrong.length ? 'Chybné otázky se ti vrátí v Dnešním opakování a v Opravit chyby.' : 'Všechno správně.'}</p>
   ${goalMeter(p)}
   ${badgeRow(b)}
-  ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Hned zopakovat ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}<button class="btn" data-act="home">Domů</button>`)}
+  ${inlineActions(`${wrong.length ? `<button class="btn btn-primary" data-act="practiceWrong">Hned zopakovat ${wrong.length} ${plural(wrong.length, 'chybu', 'chyby', 'chyb')}</button>` : ''}${freshBtn}<button class="btn" data-act="home">Domů</button>`)}
   <section><div class="section-head"><h2>Rozbor</h2>${wrong.length ? '<span class="eyebrow">chyby nahoře</span>' : ''}</div>${reviewList(items)}</section>
 </div>`;
 }
@@ -1034,6 +1037,7 @@ const ACT = {
   pictures: () => startQuiz('practice', pickSpaced('q', QB.filter(hasPic), PIC_N), 'Obrázky a fotky', 'pictures'),
   orderMatch: () => startQuiz('practice', pickSpaced('q', QB.filter(q => q.t === 'order' || q.t === 'match'), MIX_N), 'Seřaď a přiřaď', 'orderMatch'),
   mistakes: () => startQuiz('practice', shuffle(QB.filter(q => boxOf('q', q.id) === 1)), 'Opravit chyby', 'mistakes'),
+  fresh: () => startQuiz('practice', shuffle(roundRobin(QB.filter(q => !boxOf('q', q.id))).slice(0, FRESH_N)), 'Ještě neviděné', 'fresh'),
   recall: startRecall,
   disputes: () => { V = { screen: 'disputes' }; render(); toTop(); },
   practiceDisputes: () => startQuiz('practice', shuffle(QB.filter(q => q.alt)), 'Sporná místa', 'disputes'),
