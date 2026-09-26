@@ -545,7 +545,7 @@ function viewHome() {
   </section>
 
   <footer class="foot">
-    <span>${total} otázek · ${RC.length} kartiček · zdroje: skripta Zdravotníci s.r.o. a podklady kurzu, ČČK Praha 1, Příručka zdravotníka ČČK · postup se ukládá v tomto zařízení · autor <a href="https://josefstepanek.cz/kontakt" target="_blank" rel="noopener">Josef Štěpánek</a></span>
+    <span>${total} otázek · ${RC.length} kartiček · zdroje: skripta Zdravotníci s.r.o. a podklady kurzu, ČČK Praha 1, Příručka zdravotníka ČČK · postup se ukládá v tomto zařízení · autor aplikace <a href="https://josefstepanek.cz/kontakt" target="_blank" rel="noopener">Josef Štěpánek</a></span>
     <button data-act="reset">${V.confirmReset ? 'Opravdu smazat veškerý postup?' : 'Smazat postup'}</button>
   </footer>
 </div>`;
